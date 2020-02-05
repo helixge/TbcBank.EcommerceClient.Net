@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>TbcBank.EcommerceClient</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Helix</Authors>
+    <Company>Helix</Company>
+    <PackageProjectUrl>https://github.com/helixge/TbcBank.EcommerceClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/helixge/TbcBank.EcommerceClient</RepositoryUrl>
+    <Copyright />
+    <PackageId>Helix.TbcBank.EcommerceClient</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>tbc;tbcbank;ecommerce;payment;visa;mastercard;master card;e-commerce;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
