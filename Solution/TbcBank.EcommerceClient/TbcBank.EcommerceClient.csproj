@@ -6,15 +6,19 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Helix</Authors>
     <Company>Helix</Company>
-    <PackageProjectUrl>https://github.com/helixge/TbcBank.EcommerceClient</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/helixge/TbcBank.EcommerceClient</RepositoryUrl>
-    <Copyright />
+    <PackageProjectUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</RepositoryUrl>
+    <Copyright>Helix</Copyright>
     <PackageId>Helix.TbcBank.EcommerceClient</PackageId>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageTags>tbc;tbcbank;ecommerce;payment;visa;mastercard;master card;e-commerce;</PackageTags>
     <PackageIcon>helix.png</PackageIcon>
     <PackageIconUrl />
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
+    <Product>TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)</Product>
   </PropertyGroup>
 
   <ItemGroup>
