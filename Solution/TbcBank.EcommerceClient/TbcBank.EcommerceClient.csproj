@@ -12,9 +12,16 @@
     <PackageId>Helix.TbcBank.EcommerceClient</PackageId>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageTags>tbc;tbcbank;ecommerce;payment;visa;mastercard;master card;e-commerce;</PackageTags>
+    <PackageIcon>helix.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\helix.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
