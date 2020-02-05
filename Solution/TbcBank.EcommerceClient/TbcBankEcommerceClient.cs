@@ -14,6 +14,7 @@ namespace TbcBank.EcommerceClient
 
         public TbcBankEcommerceClient(TbcBankEcommerceClientOptions options)
         {
+            options.Validate();
             _options = options;
         }
 
@@ -268,7 +269,7 @@ namespace TbcBank.EcommerceClient
             {
                 handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
 
-                using (var certificate = new X509Certificate2(_options.CertPath, _options.CertPassword, X509KeyStorageFlags.MachineKeySet))
+                using (var certificate = CreateCertificate())
                 {
                     handler.ClientCertificates.Add(certificate);
 
@@ -288,6 +289,13 @@ namespace TbcBank.EcommerceClient
             }
 
             return result;
+        }
+
+        private X509Certificate2 CreateCertificate()
+        {
+            return _options.CertData != null
+                  ? new X509Certificate2(_options.CertData, _options.CertPassword, X509KeyStorageFlags.MachineKeySet)
+                  : new X509Certificate2(_options.CertPath, _options.CertPassword, X509KeyStorageFlags.MachineKeySet);
         }
     }
 }

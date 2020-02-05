@@ -6,17 +6,37 @@ TbcBank.EcommerceClient is a .NET client library for using TBC Bank e-commerce v
 
 
 ## Define options
+You can specify either file path or file data content to the options.
+
+Using certificate file
 ```csharp
 var clientOptions = new TbcBankEcommerceClientOptions()
 {
-    CertPath = "",
+    CertPath = "/path/to/file.p12",
+    CertPassword = "",
+    Environment = TbcEnvironment.Production
+};
+```
+
+Using certificate file data
+```csharp
+var byte[] certData = LoadCertDataContentAsByteArray();
+
+var clientOptions = new TbcBankEcommerceClientOptions()
+{
+    CertData = certData,
     CertPassword = "",
     Environment = TbcEnvironment.Production
 };
 ```
 * **CertPath** (string)    
   Full physical path to p12 certificate provided by TBC    
+  You can only assign either CertPath or CertData. Both cannot be assigned.    
   
+* **CertData** (byte[])    
+  Byte array data of the p12 certificate content provided by TBC    
+  You can only assign either CertPath or CertData. Both cannot be assigned.    
+
 * **CertPassword** (string)    
   Password for the certificate provided by TBC    
   
