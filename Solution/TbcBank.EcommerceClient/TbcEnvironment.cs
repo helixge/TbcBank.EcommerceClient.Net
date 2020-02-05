@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public enum Environment
+    public enum TbcEnvironment
     {
         Production = 0,
         Test = 1

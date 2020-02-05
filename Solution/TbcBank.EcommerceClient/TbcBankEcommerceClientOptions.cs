@@ -8,6 +8,6 @@ namespace TbcBank.EcommerceClient
     {
         public string CertPath { get; set; }
         public string CertPassword { get; set; }
-        public Environment Environment { get; set; }
+        public TbcEnvironment Environment { get; set; }
     }
 }

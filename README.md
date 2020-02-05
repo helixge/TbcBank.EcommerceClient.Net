@@ -11,7 +11,7 @@ var clientOptions = new TbcBankEcommerceClientOptions()
 {
     CertPath = "",
     CertPassword = "",
-    Environment = Environment.Production
+    Environment = TbcEnvironment.Production
 };
 ```
 * **CertPath** (string)    
