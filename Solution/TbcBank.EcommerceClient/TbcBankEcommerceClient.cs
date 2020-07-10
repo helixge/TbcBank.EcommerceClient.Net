@@ -68,24 +68,42 @@ namespace TbcBank.EcommerceClient
                 {"perspayee_expiry", expiryDate.Value.ToString("MMyy")},
                 { "perspayee_gen", "1"},
                 { "mrch_transaction_id", merchantTransactionId }
-                //"&biller", "{transactionId}"},
             };
 
             return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
         }
+        /// <summary>
+        /// Command - P
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="clientIpAddress"></param>
+        /// <param name="description"></param>
+        /// <param name="recurringPaymentUniqueId"></param>
+        /// <param name="expiryDate"></param>
+        /// <param name="language"></param>
+        /// <param name="merchantTransactionId"></param>
+        /// <returns></returns>
+        public async Task<RegisterTransactionResponse> RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        {
+            expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
-        //public Task GetReoccuringPaymentIdAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
-        //{
-        //    expiryDate = expiryDate ?? GetDefaultExpiryDate();
-        //    throw new NotImplementedException();
+            var requestParameters = new Dictionary<string, string>()
+            {
+                {"command", "p"},
+                {"msg_type", "AUTH"},
+                {"amount", "0"},
+                {"currency", ((int)currency).ToString() },
+                {"client_ip_addr", clientIpAddress},
+                {"description", description},
+                {"language", language},
+                {"biller_client_id", recurringPaymentUniqueId},
+                {"perspayee_expiry", expiryDate.Value.ToString("MMyy")},
+                { "perspayee_gen", "1"},
+                { "mrch_transaction_id", merchantTransactionId }
+            };
 
-        //    //command=p&amount=0&currency=<currency>&client_ip_addr=<ip>&desciption=<desc>&language=<language>&msg_type=AUTH&biller_client_id=<recc_pmnt_id>&perspayee_expiry=<expiry>&perspayee_gen=1
-
-        //    //Result
-        //    //TRANSACTION_ID: <trans_id>
-        //    //In case of an error, the returned string of symbols begins with ‘error:‘.
-        //}
-
+            return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
+        }
         /// <summary>
         /// Command  - E
         /// </summary>
@@ -237,6 +255,19 @@ namespace TbcBank.EcommerceClient
             };
 
             return new ExecuteCreditTransactionResponse(await MakePostRequestAsync(requestParameters));
+        }
+        /// <summary>
+        /// Command - B
+        /// </summary>
+        /// <returns></returns>
+        public async Task<CloseBusinessDayResponse> CloseBusinessDay()
+        {
+            var requestParameters = new Dictionary<string, string>()
+            {
+                { "command", "b"},
+            };
+
+            return new CloseBusinessDayResponse(await MakePostRequestAsync(requestParameters));
         }
         public string GetClientRedirectUrl(string transactionId)
         {
