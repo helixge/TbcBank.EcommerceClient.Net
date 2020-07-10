@@ -240,7 +240,7 @@ namespace TbcBank.EcommerceClient
         }
         public string GetClientRedirectUrl(string transactionId)
         {
-            var url = ServiceUrlBuilder.GetClientHandlerUrl(_options.Environment);
+            var url = ServiceUrlBuilderHelper.GetClientHandlerUrl(_options.Environment);
             return $"{url}?trans_id={System.Web.HttpUtility.UrlEncode(transactionId)}";
         }
 
@@ -277,7 +277,7 @@ namespace TbcBank.EcommerceClient
                     {
                         using (var content = new StringContent(queryBuilder.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded"))
                         {
-                            var url = ServiceUrlBuilder.GetMerchantHandlerUrl(_options.Environment);
+                            var url = ServiceUrlBuilderHelper.GetMerchantHandlerUrl(_options.Environment);
                             var responseMessage = await client.PostAsync(url, content);
 
                             result.HttpStatsCode = responseMessage.StatusCode;

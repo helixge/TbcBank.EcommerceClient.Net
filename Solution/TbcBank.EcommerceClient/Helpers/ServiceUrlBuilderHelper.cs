@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public static class ServiceUrlBuilder
+    public static class ServiceUrlBuilderHelper
     {
         public const string ProductionMerchantHandlerEndpoint = "https://ecommerce.ufc.ge:18443/ecomm2/MerchantHandler";
         public const string ProductionClientHandlerEndpoint = "https://ecommerce.ufc.ge/ecomm2/ClientHandler";
