@@ -55,31 +55,31 @@ var client = new TbcBankEcommerceClient(clientOptions);
 
 ## Use the API
 * **RegisterTransactionAsync**    
-  Register transaction for single use. Once transaction id is retreieved, call GetClientRedirectUrl() method and navigate the user to the corresponding URL.    
+  Register transaction for single use. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
   
 * **RegisterTransactionAndGetReoccuringPaymentIdAsync**    
-  Register transaction and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retreieved, call GetClientRedirectUrl() method and navigate the user to the corresponding URL.    
+  Register transaction and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
   
 * **GetClientRedirectUrl**    
   Once the transation is registered and the corresponding ID is retrieved from TBC, call this method to retrieve URL where the user should be redirected to in order to enter card details and complete the transaction    
   
 * **ExecuteReoccurringTransactionAsync**    
-  If you have already succesfully completed the transaction using RegisterTransactionAndGetReoccuringPaymentIdAsync method, you can execute additional transactions without the user intervension using this method.    
+  If you have already succesfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` method, you can execute additional transactions without the user intervension using this method.    
   
 * **RegisterPreAuthorizationAsync**    
-  ...    
+  Use this method if you want to tempoarily block the amount on the card while processing offline or asynchronous operation. ```ExecutePreAuthorizationAsync()``` method must be called to complete the transaction.
   
 * **ExecutePreAuthorizationAsync**    
-  ...    
+  If you have previously pre-authorized the transaction using ```RegisterPreAuthorizationAsync()``` method, you must complete the transaction by calling this method.
   
 * **CheckTransactionResultAsync**    
-  ...    
+  Check the result of transaction using a transaction id that you have previously acquired by calling any of the operations that returns transaction id. 
   
 * **ReverseTransactionAsync**    
-  ...    
+  Reversal can be used for transactions that are still in an open bussiness day. The process shold return the funds to the client immediately. The operation can revese the full amount or only a part of it. It requires ```mount``` input parameter.
   
 * **RefundTransactionAsync**    
-  ...    
+  Refund should be used for transactions that are no longer in an open busness day. The process might take up to 3 bank days to be completed and return the funds to the client. The operation can revese the full amount or only a part of it. It requires ```mount``` input parameter.
   
 * **ExecuteCreditTransaction**    
   ...    
