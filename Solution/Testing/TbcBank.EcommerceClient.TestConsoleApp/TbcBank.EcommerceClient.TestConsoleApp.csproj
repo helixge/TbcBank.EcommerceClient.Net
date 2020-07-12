@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,21 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="tbci-5301897.p12" />
+    <None Remove="tbc-test-certificate.p12" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="C:\Temp\tbc-test-certificate.p12" Link="tbc-test-certificate.p12" />
+    <Content Include="tbc-test-certificate.p12">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\TbcBank.EcommerceClient\TbcBank.EcommerceClient.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Program.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
 </Project>

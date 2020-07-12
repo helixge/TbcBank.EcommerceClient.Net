@@ -16,16 +16,4 @@ namespace TbcBank.EcommerceClient
             
         }
     }
-    public class CloseBusinessDayResponse : OperationResponse
-    {
-        public CloseBusinessDayResponse(HttpRequestResult httpResult)
-            : base(httpResult)
-        {
-        }
-
-        protected override void AssignModelValues()
-        {
-
-        }
-    }
 }
