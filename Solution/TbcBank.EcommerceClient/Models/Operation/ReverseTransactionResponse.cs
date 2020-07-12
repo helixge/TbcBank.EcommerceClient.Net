@@ -7,7 +7,9 @@ namespace TbcBank.EcommerceClient
     public class ReverseTransactionResponse : OperationResponse
     {
         public string Result { get; set; }
-        public string ResultCode { get; set; } //Success  is 400
+        public string ResultCode { get; set; }
+
+        public override bool IsError => base.IsError || ResultCode != "400";
 
         public ReverseTransactionResponse(HttpRequestResult httpResult)
             : base(httpResult)

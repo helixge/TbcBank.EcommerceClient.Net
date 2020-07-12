@@ -14,7 +14,7 @@ namespace TbcBank.EcommerceClient
         public string RawResponse { get; private set; }
         public string ErrorMessage { get; private set; }
 
-        public bool IsError => ErrorMessage != null;
+        public virtual bool IsError => ErrorMessage != null;
 
         public OperationResponse(HttpRequestResult httpResult)
         {
