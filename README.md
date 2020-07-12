@@ -5,7 +5,13 @@
 TbcBank.EcommerceClient is a .NET client library for using TBC Bank e-commerce visa and master card payments gateway .
 
 
-## Define options
+## Installation
+Install the latest stable releases via Nuget    
+[Helix.TbcBank.EcommerceClient](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
+
+
+## How To Use
+### Define options
 You can specify either file path or file data content to the options.
 
 Using certificate file
@@ -48,20 +54,20 @@ var clientOptions = new TbcBankEcommerceClientOptions()
     (if provided by TBC)
 
 
-## Create client
+### Create client
 ```csharp
 var client = new TbcBankEcommerceClient(clientOptions);
 ```
 
-## Use the API
+## Methods
 * **RegisterTransactionAsync**    
-  Register transaction for single use. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
+  Register payment transaction with the specified amount for single use. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
   
 * **RegisterTransactionAndGetReoccuringPaymentIdAsync**    
-  Register transaction and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
+  Register payment transaction with specified amount and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
 
 * **RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync**    
-  ...    
+  Register a request to save card information for future transactions without charging the card. This feature should be enabled by TBC. Once transaction id is retreieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
 
 * **GetClientRedirectUrl**    
   Once the transation is registered and the corresponding ID is retrieved from TBC, call this method to retrieve URL where the user should be redirected to in order to enter card details and complete the transaction    
@@ -79,14 +85,15 @@ var client = new TbcBankEcommerceClient(clientOptions);
   Check the result of transaction using a transaction id that you have previously acquired by calling any of the operations that returns transaction id. 
   
 * **ReverseTransactionAsync**    
-  Reversal can be used for transactions that are still in an open bussiness day. The process shold return the funds to the client immediately. The operation can revese the full amount or only a part of it. It requires ```mount``` input parameter.
+  Reversal can be used for transactions that are still in an open bussiness day. The process shold return the funds to the client immediately. The operation can revese the full amount or only a part of it. It requires ```amount``` input parameter.
   
 * **RefundTransactionAsync**    
-  Refund should be used for transactions that are no longer in an open busness day. The process might take up to 3 bank days to be completed and return the funds to the client. The operation can revese the full amount or only a part of it. It requires ```mount``` input parameter.
+  Refund should be used for transactions that are no longer in an open busness day. The process might take up to 3 bank days to be completed and return the funds to the client. The operation can revese the full amount or only a part of it. It requires ```amount``` input parameter.
   
 * **CloseBusinessDay**    
   ...    
   
 * **ExecuteCreditTransaction**    
+  This feature should be enabled by TBC.    
   ...    
   
