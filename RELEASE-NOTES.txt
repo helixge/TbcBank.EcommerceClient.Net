@@ -1,13 +1,15 @@
+v1.3.0
+    - Added CloseBusinessDay operation (command=p)
+    - Added RegisterTransactionAndGetReoccuringPaymentIdWithoutCharge operation (command=p)
+    - Fixed success check for Reversal and Refund operations
+    - ReocurringPaymentExpiry property of CheckTransactionResultResonse is now set to the last day of the month rather than the first day
+    
 v1.2.0
-- added CloseBusinessDay operation (command=p)
-- added RegisterTransactionAndGetReoccuringPaymentIdWithoutCharge operation (command=p)
-- Fixed success check for Reversal and Refund
-- ReocurringPaymentExpiry property of CheckTransactionResultResonse is now set to the last day of the month rather thatn the first day
-    
-    
+    [Unreleases]
+
 v1.1.0
-- Bug fixes.
+    - Bug fixes.
     
     
 v1.0.0
-- Initial release.
+    - Initial release.
