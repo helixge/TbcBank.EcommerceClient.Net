@@ -29,23 +29,28 @@ namespace TbcBank.EcommerceClient
             Rrn = GetResponseKeyValue("RRN");
             ApprovalCode = GetResponseKeyValue("APPROVAL_CODE");
             CardNumber = GetResponseKeyValue("CARD_NUMBER");
+            ReocurringPaymentBillerClientId = GetResponseKeyValue("RECC_PMNT_ID");
             //MerchantTransactionId = GetResponseKeyValue("MRCH_TX_ID"); //MRCH_TRANSACTION_ID  -  Service does not return any of it
 
-            ReocurringPaymentBillerClientId = GetResponseKeyValue("RECC_PMNT_ID");
+            ParseReccPmntExpiry();
+        }
+
+        private void ParseReccPmntExpiry()
+        {
             var expiryValue = GetResponseKeyValue("RECC_PMNT_EXPIRY");
             if (expiryValue?.Length == 4)
-            {
                 try
                 {
                     int month = Convert.ToInt32(expiryValue.Substring(0, 2));
                     int year = Convert.ToInt32(expiryValue.Substring(2, 2));
-                    ReocurringPaymentExpiry = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeSpan.Zero);
+                    ReocurringPaymentExpiry = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeSpan.Zero)
+                        .AddMonths(1)
+                        .AddDays(-1);
                 }
                 catch
                 {
                     ReocurringPaymentExpiry = null;
                 }
-            }
         }
     }
 }
