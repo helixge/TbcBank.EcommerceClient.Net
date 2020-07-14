@@ -42,7 +42,7 @@ namespace TbcBank.EcommerceClient
                 try
                 {
                     int month = Convert.ToInt32(expiryValue.Substring(0, 2));
-                    int year = Convert.ToInt32(expiryValue.Substring(2, 2));
+                    int year = Convert.ToInt32(expiryValue.Substring(2, 2)) + 2000;
                     ReocurringPaymentExpiry = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeSpan.Zero)
                         .AddMonths(1)
                         .AddDays(-1);
