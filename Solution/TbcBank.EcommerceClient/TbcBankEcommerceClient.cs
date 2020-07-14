@@ -251,6 +251,7 @@ namespace TbcBank.EcommerceClient
                 { "command", "ag"},
                 { "amount", amount.ToString()},
                 { "trans_id", billerClientId},
+                { "description", description},
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
