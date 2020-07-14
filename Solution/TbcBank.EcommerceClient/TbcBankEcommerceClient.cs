@@ -243,7 +243,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="description"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<ExecuteCreditTransactionResponse> ExecuteCreditTransaction(int amount, string billerClientId, string description, string merchantTransactionId = null)
+        public async Task<ExecuteCreditTransactionResponse> ExecuteCreditTransactionAsync(int amount, string billerClientId, string description, string merchantTransactionId = null)
         {
 
             var requestParameters = new Dictionary<string, string>()
@@ -261,7 +261,7 @@ namespace TbcBank.EcommerceClient
         /// Command - B
         /// </summary>
         /// <returns></returns>
-        public async Task<CloseBusinessDayResponse> CloseBusinessDay()
+        public async Task<CloseBusinessDayResponse> CloseBusinessDayAsync()
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -322,7 +322,6 @@ namespace TbcBank.EcommerceClient
 
             return result;
         }
-
         private X509Certificate2 CreateCertificate()
         {
             return _options.CertData != null
