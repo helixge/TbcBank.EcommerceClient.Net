@@ -1,8 +1,13 @@
+v1.4.0
+    - Fixed ReocurringPaymentExpiry year value.
+    - Pass in description value to ExecuteCreditTransaction mthod call
+    - **Breaking** Renamed ExecuteCreditTransaction to ExecuteCreditTransactionAsync
+    - **Breaking** Renamed CloseBusinessDay to CloseBusinessDayAsync
 v1.3.0
-    - Added CloseBusinessDay operation (command=p)
-    - Added RegisterTransactionAndGetReoccuringPaymentIdWithoutCharge operation (command=p)
-    - Fixed success check for Reversal and Refund operations
-    - ReocurringPaymentExpiry property of CheckTransactionResultResonse is now set to the last day of the month rather than the first day
+    - Added CloseBusinessDay operation (command=p).
+    - Added RegisterTransactionAndGetReoccuringPaymentIdWithoutCharge operation (command=p).
+    - Fixed success check for Reversal and Refund operations.
+    - ReocurringPaymentExpiry property of CheckTransactionResultResponse is now set to the last day of the month rather than the first day.
     
 v1.2.0
     [Unreleases]

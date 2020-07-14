@@ -1,6 +1,6 @@
 # TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)
 
-[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?1-3-0)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
+[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?1-4-0)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
 
 [Helix.TbcBank.EcommerceClient](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient) is a .NET client library for using TBC Bank e-commerce visa and master card payments gateway .
 
@@ -85,10 +85,10 @@ var client = new TbcBankEcommerceClient(clientOptions);
 * **RefundTransactionAsync**    
   Refund should be used for transactions that are no longer in an open busness day. The process might take up to 3 bank days to be completed and return the funds to the client. The operation can revese the full amount or only a part of it. It requires ```amount``` input parameter.
   
-* **CloseBusinessDay**    
+* **CloseBusinessDayAsync**    
   ...    
   
-* **ExecuteCreditTransaction**    
+* **ExecuteCreditTransactionAsync**    
   This feature should be enabled by TBC.    
   ...    
   
