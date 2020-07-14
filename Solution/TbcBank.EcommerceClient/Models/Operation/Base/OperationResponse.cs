@@ -5,11 +5,10 @@ namespace TbcBank.EcommerceClient
 {
     public abstract class OperationResponse
     {
-        private const char LineSeparator = '\n';
-        private const char KeyValueSeparator = ':';
+        private const char _lineSeparator = '\n';
+        private const char _keyValueSeparator = ':';
 
         private IDictionary<string, string> _keyValuePairs;
-        private string _rawResponse;
 
         public string RawResponse { get; private set; }
         public string ErrorMessage { get; private set; }
@@ -47,12 +46,12 @@ namespace TbcBank.EcommerceClient
                 return;
             }
 
-            string[] lines = RawResponse.Split(LineSeparator);
+            string[] lines = RawResponse.Split(_lineSeparator);
             if (lines.Length == 0) { return; }
 
             foreach (var line in lines)
             {
-                string[] kvp = line.Split(KeyValueSeparator);
+                string[] kvp = line.Split(_keyValueSeparator);
                 if (kvp.Length < 2) { continue; }
 
                 _keyValuePairs.Add(kvp[0].Trim(), kvp[1].Trim());
