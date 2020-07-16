@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E609
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TbcBank.EcommerceClient.TestConsoleApp", "Testing\TbcBank.EcommerceClient.TestConsoleApp\TbcBank.EcommerceClient.TestConsoleApp.csproj", "{1733A9AD-85E6-4688-AF92-F1DE0EBC7F41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TbcBank.EcommerceClient.Tests", "Testing\TbcBank.EcommerceClient.Tests\TbcBank.EcommerceClient.Tests.csproj", "{6EABFCE2-A2F1-4922-97FE-64E3A0D42410}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{1733A9AD-85E6-4688-AF92-F1DE0EBC7F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1733A9AD-85E6-4688-AF92-F1DE0EBC7F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1733A9AD-85E6-4688-AF92-F1DE0EBC7F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EABFCE2-A2F1-4922-97FE-64E3A0D42410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EABFCE2-A2F1-4922-97FE-64E3A0D42410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EABFCE2-A2F1-4922-97FE-64E3A0D42410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EABFCE2-A2F1-4922-97FE-64E3A0D42410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1733A9AD-85E6-4688-AF92-F1DE0EBC7F41} = {E609C37E-06F8-44C9-B57F-320E582FFC18}
+		{6EABFCE2-A2F1-4922-97FE-64E3A0D42410} = {E609C37E-06F8-44C9-B57F-320E582FFC18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5C4504E-3E8E-4F1E-AB96-9A228A6843BC}

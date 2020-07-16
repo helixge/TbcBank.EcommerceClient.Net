@@ -4,12 +4,9 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class RefundTransactionResponse : OperationResponse
+    public class RefundTransactionResponse : FinancialOperationResponse
     {
         public string Result { get; set; }
-        public string ResultCode { get; set; }
-
-        public override bool IsError => base.IsError || ResultCode != "000";
 
         public RefundTransactionResponse(HttpRequestResult httpResult)
             : base(httpResult)
@@ -20,6 +17,10 @@ namespace TbcBank.EcommerceClient
         {
             Result = GetResponseKeyValue("RESULT");
             ResultCode = GetResponseKeyValue("RESULT_CODE");
+        }
+        protected override bool IsFinancialOperationSuccessful()
+        {
+            return ResultCode?.StartsWith("0") == true;
         }
     }
 }

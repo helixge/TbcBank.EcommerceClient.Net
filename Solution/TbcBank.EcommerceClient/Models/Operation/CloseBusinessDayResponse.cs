@@ -1,9 +1,8 @@
 ﻿namespace TbcBank.EcommerceClient
 {
-    public class CloseBusinessDayResponse : OperationResponse
+    public class CloseBusinessDayResponse : FinancialOperationResponse
     {
         public string Result { get; set; }
-        public string ResultCode { get; set; }
 
         public override bool IsError => base.IsError || ResultCode != "500";
 
@@ -16,6 +15,10 @@
         {
             Result = GetResponseKeyValue("RESULT");
             ResultCode = GetResponseKeyValue("RESULT_CODE");
+        }
+        protected override bool IsFinancialOperationSuccessful()
+        {
+            return ResultCode == "500";
         }
     }
 }
