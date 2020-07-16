@@ -1,3 +1,5 @@
+v1.5.0
+    - Fixed error success checks
 v1.4.0
     - Fixed ReocurringPaymentExpiry year value.
     - Pass in description value to ExecuteCreditTransaction mthod call
