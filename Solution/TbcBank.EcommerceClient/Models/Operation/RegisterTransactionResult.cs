@@ -4,12 +4,12 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class RegisterTransactionResponse : OperationResponse
+    public class RegisterTransactionResult : OperationResult
     {
         public string TransactionId { get; set; }
         public string MerchantTransactionId { get; set; }
 
-        public RegisterTransactionResponse(HttpRequestResult httpResult)
+        public RegisterTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }

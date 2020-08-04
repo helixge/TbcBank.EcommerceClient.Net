@@ -23,7 +23,7 @@ namespace TbcBank.EcommerceClient
         /// </summary>
         /// <param name="amount">Amount in fractional units (i.e. Cents, Tetris)</param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResponse> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -37,7 +37,7 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - Z
@@ -51,7 +51,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="language"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResponse> RegisterTransactionAndGetReoccuringPaymentIdAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterTransactionAndGetReoccuringPaymentIdAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
@@ -70,7 +70,7 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - P
@@ -83,7 +83,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="language"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResponse> RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
@@ -102,7 +102,7 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command  - E
@@ -115,7 +115,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="language"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<ExecuteReoccurringTransactionResponse> ExecuteReoccurringTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<ExecuteReoccurringTransactionResult> ExecuteReoccurringTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -130,7 +130,7 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new ExecuteReoccurringTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - A
@@ -141,7 +141,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="description"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResponse> RegisterPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -155,7 +155,7 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - T
@@ -166,7 +166,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="clientIpAddress"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public async Task<ExecutePreAuthorizationResponse> ExecutePreAuthorizationAsync(string transactionId, int amount, CurrencyCode currency, string clientIpAddress, string description)
+        public async Task<ExecutePreAuthorizationResult> ExecutePreAuthorizationAsync(string transactionId, int amount, CurrencyCode currency, string clientIpAddress, string description)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -180,7 +180,7 @@ namespace TbcBank.EcommerceClient
                 { "desc", description},
             };
 
-            return new ExecutePreAuthorizationResponse(await MakePostRequestAsync(requestParameters));
+            return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - C
@@ -188,7 +188,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="transactionId"></param>
         /// <param name="clientIpAddress"></param>
         /// <returns></returns>
-        public async Task<CheckTransactionResultResponse> CheckTransactionResultAsync(string transactionId, string clientIpAddress)
+        public async Task<CheckTransactionResult> CheckTransactionResultAsync(string transactionId, string clientIpAddress)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -197,7 +197,7 @@ namespace TbcBank.EcommerceClient
                 { "client_ip_addr", clientIpAddress}
             };
 
-            return new CheckTransactionResultResponse(await MakePostRequestAsync(requestParameters));
+            return new CheckTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - R
@@ -205,7 +205,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="transactionId"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public async Task<ReverseTransactionResponse> ReverseTransactionAsync(string transactionId, int amount)
+        public async Task<ReverseTransactionResult> ReverseTransactionAsync(string transactionId, int amount)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -214,7 +214,7 @@ namespace TbcBank.EcommerceClient
                 { "amount", amount.ToString() }
             };
 
-            return new ReverseTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new ReverseTransactionResult(await MakePostRequestAsync(requestParameters));
 
             throw new NotImplementedException();
         }
@@ -224,7 +224,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="transactionId"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public async Task<RefundTransactionResponse> RefundTransactionAsync(string transactionId, int amount)
+        public async Task<RefundTransactionResult> RefundTransactionAsync(string transactionId, int amount)
         {
             var requestParameters = new Dictionary<string, string>()
             {
@@ -233,7 +233,7 @@ namespace TbcBank.EcommerceClient
                 { "amount", amount.ToString() }
             };
 
-            return new RefundTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new RefundTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - G
@@ -243,7 +243,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="description"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<ExecuteCreditTransactionResponse> ExecuteCreditTransactionAsync(int amount, string billerClientId, string description, string merchantTransactionId = null)
+        public async Task<ExecuteCreditTransactionResult> ExecuteCreditTransactionAsync(int amount, string billerClientId, string description, string merchantTransactionId = null)
         {
 
             var requestParameters = new Dictionary<string, string>()
@@ -255,20 +255,20 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new ExecuteCreditTransactionResponse(await MakePostRequestAsync(requestParameters));
+            return new ExecuteCreditTransactionResult(await MakePostRequestAsync(requestParameters));
         }
         /// <summary>
         /// Command - B
         /// </summary>
         /// <returns></returns>
-        public async Task<CloseBusinessDayResponse> CloseBusinessDayAsync()
+        public async Task<CloseBusinessDayResult> CloseBusinessDayAsync()
         {
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "b"},
             };
 
-            return new CloseBusinessDayResponse(await MakePostRequestAsync(requestParameters));
+            return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters));
         }
         public string GetClientRedirectUrl(string transactionId)
         {
@@ -282,51 +282,76 @@ namespace TbcBank.EcommerceClient
         }
         private async Task<HttpRequestResult> MakePostRequestAsync(IDictionary<string, string> requestParameters)
         {
+            if (requestParameters is null)
+                throw new ArgumentNullException(nameof(requestParameters));
+
             StringBuilder queryBuilder = new StringBuilder();
             foreach (var requestParameter in requestParameters)
             {
-                if (requestParameter.Value == null) { continue; }
+                if (requestParameter.Value == null)
+                    continue;
+
                 queryBuilder.Append($"{requestParameter.Key}={Uri.EscapeDataString(requestParameter.Value)}&");
             }
-            if (queryBuilder.Length > 1) { queryBuilder.Remove(queryBuilder.Length - 1, 1); }
+
+            if (queryBuilder.Length > 1)
+                queryBuilder.Remove(queryBuilder.Length - 1, 1);
 
 
-            HttpRequestResult result = new HttpRequestResult();
-
-            using (var handler = new HttpClientHandler
+            HttpRequestResult result = new HttpRequestResult()
             {
-                ClientCertificateOptions = ClientCertificateOption.Manual,
-                SslProtocols = SslProtocols.Tls12,
-            })
-            {
-                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
+                RequestUrl = ServiceUrlBuilderHelper.GetMerchantHandlerUrl(_options.Environment),
+                RequestQuery = queryBuilder.ToString()
+            };
 
-                using (var certificate = CreateCertificate())
+            try
+            {
+                using (var handler = new HttpClientHandler
                 {
-                    handler.ClientCertificates.Add(certificate);
+                    ClientCertificateOptions = ClientCertificateOption.Manual,
+                    SslProtocols = SslProtocols.Tls12,
+                })
+                {
+                    handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
 
-                    using (HttpClient client = new HttpClient(handler))
+                    using (var certificate = CreateCertificate())
                     {
-                        using (var content = new StringContent(queryBuilder.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded"))
-                        {
-                            var url = ServiceUrlBuilderHelper.GetMerchantHandlerUrl(_options.Environment);
-                            var responseMessage = await client.PostAsync(url, content);
+                        handler.ClientCertificates.Add(certificate);
 
-                            result.HttpStatsCode = responseMessage.StatusCode;
-                            result.Success = responseMessage.IsSuccessStatusCode;
-                            result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
+                        using (HttpClient client = new HttpClient(handler))
+                        {
+                            using (var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded"))
+                            {
+                                var responseMessage = await client.PostAsync(result.RequestUrl, content);
+
+                                result.HttpStatsCode = responseMessage.StatusCode;
+                                result.Success = responseMessage.IsSuccessStatusCode;
+                                result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Exception = ex;
             }
 
             return result;
         }
         private X509Certificate2 CreateCertificate()
         {
-            return _options.CertData != null
-                  ? new X509Certificate2(_options.CertData, _options.CertPassword, X509KeyStorageFlags.MachineKeySet)
-                  : new X509Certificate2(_options.CertPath, _options.CertPassword, X509KeyStorageFlags.MachineKeySet);
+            try
+            {
+                return _options.CertData != null
+                      ? new X509Certificate2(_options.CertData, _options.CertPassword, X509KeyStorageFlags.MachineKeySet)
+                      : new X509Certificate2(_options.CertPath, _options.CertPassword, X509KeyStorageFlags.MachineKeySet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to create X509Certificate2", ex);
+            }
         }
     }
 }

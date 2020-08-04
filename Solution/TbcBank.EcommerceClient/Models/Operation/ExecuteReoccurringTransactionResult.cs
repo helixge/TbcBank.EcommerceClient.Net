@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class ExecuteReoccurringTransactionResponse : FinancialOperationResponse
+    public class ExecuteReoccurringTransactionResult : FinancialOperationResult
     {
         public string TransactionId { get; set; }
         public string Result { get; set; }
@@ -12,7 +12,7 @@ namespace TbcBank.EcommerceClient
         public string ApprovalCode { get; set; }
         public string CardNumber { get; set; }
 
-        public ExecuteReoccurringTransactionResponse(HttpRequestResult httpResult)
+        public ExecuteReoccurringTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }

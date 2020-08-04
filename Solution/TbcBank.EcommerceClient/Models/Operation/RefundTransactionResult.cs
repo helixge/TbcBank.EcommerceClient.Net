@@ -4,14 +4,11 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class ExecutePreAuthorizationResponse : FinancialOperationResponse
+    public class RefundTransactionResult : FinancialOperationResult
     {
         public string Result { get; set; }
-        public string Rrn { get; set; }
-        public string ApprovalCode { get; set; }
-        public string CardNumber { get; set; }
 
-        public ExecutePreAuthorizationResponse(HttpRequestResult httpResult)
+        public RefundTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }
@@ -20,9 +17,6 @@ namespace TbcBank.EcommerceClient
         {
             Result = GetResponseKeyValue("RESULT");
             ResultCode = GetResponseKeyValue("RESULT_CODE");
-            Rrn = GetResponseKeyValue("RRN");
-            ApprovalCode = GetResponseKeyValue("APPROVAL_CODE");
-            CardNumber = GetResponseKeyValue("CARD_NUMBER");
         }
         protected override bool IsFinancialOperationSuccessful()
         {

@@ -25,7 +25,7 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
             TbcBankEcommerceClient client = new TbcBankEcommerceClient(options);
 
-            var closeBusinessDayResult = await client.CloseBusinessDay();
+            var closeBusinessDayResult = await client.CloseBusinessDayAsync();
 
             //var registerTransactionResult = await client.RegisterTransactionAsync(1, CurrencyCode.GEL, clientIpAddress, "Test Transaction - RegisterTransaction", PaymentUiLanguage.Georgian, "MerchantId-001");
             //var redirectUrl1 = client.GetClientRedirectUrl(registerTransactionResult.TransactionId);

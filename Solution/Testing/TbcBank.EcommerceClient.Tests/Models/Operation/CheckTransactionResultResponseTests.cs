@@ -20,7 +20,7 @@ namespace TbcBank.EcommerceClient.Tests.Models.Operation
         public void IsError_TestSpecificCases(bool isError, string rawResponse)
         {
             //Arrange
-            var result = new CheckTransactionResultResponse(new HttpRequestResult()
+            var result = new CheckTransactionResult(new HttpRequestResult()
             {
                 RawResponse = rawResponse
             });

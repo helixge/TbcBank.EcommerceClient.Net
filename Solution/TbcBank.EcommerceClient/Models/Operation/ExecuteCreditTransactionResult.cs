@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class ExecuteCreditTransactionResponse : OperationResponse
+    public class ExecuteCreditTransactionResult : OperationResult
     {
-        public ExecuteCreditTransactionResponse(HttpRequestResult httpResult)
+        public ExecuteCreditTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }

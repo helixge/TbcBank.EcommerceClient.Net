@@ -1,12 +1,12 @@
 ﻿namespace TbcBank.EcommerceClient
 {
-    public class CloseBusinessDayResponse : FinancialOperationResponse
+    public class CloseBusinessDayResult : FinancialOperationResult
     {
         public string Result { get; set; }
 
         public override bool IsError => base.IsError || ResultCode != "500";
 
-        public CloseBusinessDayResponse(HttpRequestResult httpResult)
+        public CloseBusinessDayResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }

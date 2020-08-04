@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class CheckTransactionResultResponse : FinancialOperationResponse
+    public class CheckTransactionResult : FinancialOperationResult
     {
         public string Result { get; set; }
         public string ThreeDSecureStatus { get; set; }
@@ -14,7 +14,7 @@ namespace TbcBank.EcommerceClient
         public string ReocurringPaymentBillerClientId { get; set; }
         public DateTimeOffset? ReocurringPaymentExpiry { get; set; }
 
-        public CheckTransactionResultResponse(HttpRequestResult httpResult)
+        public CheckTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }

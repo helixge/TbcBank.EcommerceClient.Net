@@ -16,7 +16,7 @@ namespace TbcBank.EcommerceClient.Tests.Models.Operation
         public void IsError_TestSpecificCases(bool isError, string rawResponse)
         {
             //Arrange
-            var result = new ExecuteReoccurringTransactionResponse(new HttpRequestResult()
+            var result = new ExecuteReoccurringTransactionResult(new HttpRequestResult()
             {
                 RawResponse = rawResponse
             });

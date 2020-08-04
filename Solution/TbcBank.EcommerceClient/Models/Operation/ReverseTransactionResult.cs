@@ -4,11 +4,11 @@ using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
-    public class ReverseTransactionResponse : FinancialOperationResponse
+    public class ReverseTransactionResult : FinancialOperationResult
     {
         public string Result { get; set; }
 
-        public ReverseTransactionResponse(HttpRequestResult httpResult)
+        public ReverseTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
         {
         }
