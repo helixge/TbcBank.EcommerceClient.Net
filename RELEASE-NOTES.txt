@@ -1,15 +1,21 @@
+v2.1.0
+    - Added transactionstate in CheckTransactionResult with the following possible values (Pending, Succeeded, Failed)
+
 v2.0.0 [**Breaking**]
     - Renamed operation result class names from Response To Result suffix
     - Do not throw exception for HTTP communication problems, insted return Exception in a result as a property
     - Return HTTP request URL in the result as a property
     - Return HTTP request post params query string in the result as a property
+
 v1.5.0
     - Fixed error success checks
+
 v1.4.0 [**Breaking**]
     - Fixed ReocurringPaymentExpiry year value.
     - Pass in description value to ExecuteCreditTransaction mthod call
     - **Breaking** Renamed ExecuteCreditTransaction to ExecuteCreditTransactionAsync
     - **Breaking** Renamed CloseBusinessDay to CloseBusinessDayAsync
+
 v1.3.0
     - Added CloseBusinessDay operation (command=p).
     - Added RegisterTransactionAndGetReoccuringPaymentIdWithoutCharge operation (command=p).
