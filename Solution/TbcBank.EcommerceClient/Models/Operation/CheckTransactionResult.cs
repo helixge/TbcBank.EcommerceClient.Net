@@ -36,6 +36,9 @@ namespace TbcBank.EcommerceClient
 
         private TransactionState ParseState()
         {
+            if (!String.IsNullOrWhiteSpace(ErrorMessage))
+                return TransactionState.Failed;
+
             switch (Result)
             {
                 case TransactionResultStatus.CREATED:

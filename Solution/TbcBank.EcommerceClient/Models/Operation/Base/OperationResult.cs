@@ -46,10 +46,7 @@ namespace TbcBank.EcommerceClient
             _keyValuePairs = new Dictionary<string, string>();
 
             if (RawResponse.StartsWith("error:"))
-            {
                 ErrorMessage = RawResponse;
-                return;
-            }
 
             string[] lines = RawResponse.Split(_lineSeparator);
             if (lines.Length == 0)
