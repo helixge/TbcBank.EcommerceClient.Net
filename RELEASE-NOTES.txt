@@ -1,5 +1,8 @@
+v2.2.0
+    - Fix transaction state value for transactions when error is returned from server. Show Failed instead of unknown.
+
 v2.1.0
-    - Added transactionstate in CheckTransactionResult with the following possible values (Pending, Succeeded, Failed)
+    - Added transaction state in CheckTransactionResult with the following possible values (Pending, Succeeded, Failed)
 
 v2.0.0 [**Breaking**]
     - Renamed operation result class names from Response To Result suffix
