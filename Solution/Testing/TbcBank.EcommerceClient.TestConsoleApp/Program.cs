@@ -18,7 +18,7 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
             TbcBankEcommerceClientOptions options = new TbcBankEcommerceClientOptions()
             {
-                CertPath = "tbc-test-certificate.p12",
+                CertPath = @"C:\Temp\tbc-test-certificate.p12",
                 CertPassword = "8xh4-S2wQALdibVV",
                 Environment = TbcEnvironment.Test
             };
