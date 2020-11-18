@@ -28,7 +28,7 @@ namespace TbcBank.EcommerceClient
             Rrn = GetResponseKeyValue("RRN");
             ApprovalCode = GetResponseKeyValue("APPROVAL_CODE");
             CardNumber = GetResponseKeyValue("CARD_NUMBER");
-            ReocurringPaymentBillerClientId = GetResponseKeyValue("RECC_PMNT_ID");
+            ReocurringPaymentBillerClientId = FixBillerClientId(GetResponseKeyValue("RECC_PMNT_ID"));
 
             ParseReccPmntExpiry();
             State = ParseState();
@@ -63,12 +63,10 @@ namespace TbcBank.EcommerceClient
                     return TransactionState.Unknown;
             }
         }
-
         protected override bool IsFinancialOperationSuccessful()
         {
             return ResultCode?.StartsWith("0") == true;
         }
-
         private void ParseReccPmntExpiry()
         {
             var expiryValue = GetResponseKeyValue("RECC_PMNT_EXPIRY");
@@ -85,6 +83,10 @@ namespace TbcBank.EcommerceClient
                 {
                     ReocurringPaymentExpiry = null;
                 }
+        }
+        private string FixBillerClientId(string responseBillerClientId)
+        {
+            return ResponseProcessingHelper.FixBillerClientIdUfcResponse(responseBillerClientId);
         }
     }
 }
