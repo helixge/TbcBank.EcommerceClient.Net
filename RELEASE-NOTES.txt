@@ -1,3 +1,6 @@
+v2.3.0
+    - Fixed biller client response processing due to UFC adding "_oc" suffix to response.
+
 v2.2.0
     - Fix transaction state value for transactions when error is returned from server. Show Failed instead of unknown.
 
