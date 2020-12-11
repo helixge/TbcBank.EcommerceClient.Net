@@ -16,7 +16,7 @@ namespace TbcBank.EcommerceClient
         public string RequestUrl { get; private set; }
         public string RequestQuery { get; private set; }
 
-        public virtual bool IsError => ErrorMessage != null;
+        public virtual bool IsError => ErrorMessage != null || Exception != null;
 
         public OperationResult(HttpRequestResult httpResult)
         {
@@ -27,6 +27,9 @@ namespace TbcBank.EcommerceClient
             Exception = httpResult.Exception;
             RequestUrl = httpResult.RequestUrl;
             RequestQuery = httpResult.RequestQuery;
+
+            if (Exception != null)
+                ErrorMessage = Exception.Message;
 
             if (RawResponse != null)
                 ParseRawResponseKeyValues();
