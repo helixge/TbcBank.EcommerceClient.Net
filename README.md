@@ -1,6 +1,6 @@
 # TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)
 
-[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?2-3-0)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
+[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?2-4-0)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
 
 [Helix.TbcBank.EcommerceClient](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient) is a .NET client library for using TBC Bank e-commerce visa and master card payments gateway .
 

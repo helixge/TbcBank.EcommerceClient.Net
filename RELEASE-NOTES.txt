@@ -1,3 +1,6 @@
+v2.4.0
+    - Fix IsError and ErrorMessage values when exception occurs
+
 v2.3.0
     - Fixed biller client response processing due to UFC adding "_oc" suffix to response.
 
