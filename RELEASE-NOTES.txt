@@ -1,3 +1,5 @@
+v.2.5.0
+    - Add legacy environment called LegacyProduction for merchants using old host securepay.ufc.ge
 v2.4.0
     - Fix IsError and ErrorMessage values when exception occurs
 

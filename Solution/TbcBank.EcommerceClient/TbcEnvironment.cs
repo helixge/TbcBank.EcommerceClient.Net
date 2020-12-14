@@ -7,6 +7,7 @@ namespace TbcBank.EcommerceClient
     public enum TbcEnvironment
     {
         Production = 0,
-        Test = 1
+        Test = 1,
+        LegacyProduction = 2
     }
 }
