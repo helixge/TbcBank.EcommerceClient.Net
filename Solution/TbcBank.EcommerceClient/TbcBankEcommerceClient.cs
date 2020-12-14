@@ -306,11 +306,7 @@ namespace TbcBank.EcommerceClient
 
             try
             {
-                using (var handler = new HttpClientHandler
-                {
-                    ClientCertificateOptions = ClientCertificateOption.Manual,
-                    SslProtocols = SslProtocols.Tls12,
-                })
+                using (var handler = GetHttpClientHandler())
                 {
                     handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
 
@@ -340,6 +336,22 @@ namespace TbcBank.EcommerceClient
 
             return result;
         }
+
+        private HttpClientHandler GetHttpClientHandler()
+        {
+            if (_options.Environment == TbcEnvironment.LegacyProduction)
+                return new HttpClientHandler
+                {
+                    ClientCertificateOptions = ClientCertificateOption.Manual
+                };
+
+            return new HttpClientHandler
+            {
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                SslProtocols = SslProtocols.Tls12,
+            };
+        }
+
         private X509Certificate2 CreateCertificate()
         {
             try
