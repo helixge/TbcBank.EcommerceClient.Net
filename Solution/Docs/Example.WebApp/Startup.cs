@@ -24,6 +24,10 @@ namespace Example.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddTbcBankEcommerce(
+                Configuration.GetTbcBankEcommerceOptions("Tbc")
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

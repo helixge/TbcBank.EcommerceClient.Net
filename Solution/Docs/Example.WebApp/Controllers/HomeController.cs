@@ -6,16 +6,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TbcBank.EcommerceClient;
 
 namespace Example.WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly TbcBankEcommerceClient _tbcBankEcommerceClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            TbcBankEcommerceClient tbcBankEcommerceClient
+            )
         {
             _logger = logger;
+            _tbcBankEcommerceClient = tbcBankEcommerceClient;
         }
 
         public IActionResult Index()
