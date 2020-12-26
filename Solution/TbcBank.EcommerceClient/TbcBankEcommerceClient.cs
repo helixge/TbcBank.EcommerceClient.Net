@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -10,12 +11,15 @@ namespace TbcBank.EcommerceClient
 {
     public class TbcBankEcommerceClient
     {
-        private readonly TbcBankEcommerceClientOptions _options;
+        private readonly IEnumerable<TbcBankEcommerceClientOptions> _optionsList;
+        
+        private TbcBankEcommerceClientOptions _options;
 
-        public TbcBankEcommerceClient(TbcBankEcommerceClientOptions options)
+        public TbcBankEcommerceClient(IEnumerable<TbcBankEcommerceClientOptions> optionsList)
         {
-            options.Validate();
-            _options = options;
+            optionsList.Validate();
+            _optionsList = optionsList;
+            _options = _optionsList.First();
         }
 
         /// <summary>
