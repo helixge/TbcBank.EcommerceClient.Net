@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Extensions.Configuration
+namespace TbcBank.EcommerceClient
 {
     [Serializable]
     internal class TbcBankEcommerceClientConfigurationException : Exception
