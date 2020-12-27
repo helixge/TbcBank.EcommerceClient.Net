@@ -33,7 +33,7 @@ namespace TbcBank.EcommerceClient
         /// </summary>
         public CurrencyCode[] Currencies { get; set; }
 
-        public void Validate()
+        public void Validate(bool validateMerchandId = false, bool validateCurrencies = false)
         {
             if (CertData != null && !String.IsNullOrWhiteSpace(CertPath))
                 throw new Exception("Invalid options, both CertData and CertPath are assigned. Only one of them can be assigned");
@@ -41,10 +41,10 @@ namespace TbcBank.EcommerceClient
             if (CertData == null && String.IsNullOrWhiteSpace(CertPath))
                 throw new Exception("Invalid options, neither CertData not CertPath are assigned. One of them should be assigned.");
 
-            if (String.IsNullOrWhiteSpace(MerchantId))
+            if (validateMerchandId && String.IsNullOrWhiteSpace(MerchantId))
                 throw new Exception("Invalid options, merchant ID is not defined");
 
-            if (!(Currencies?.Length > 0))
+            if (validateCurrencies && !(Currencies?.Length > 0))
                 throw new Exception("Invalid options, no currencies have been defined");
 
         }
