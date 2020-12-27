@@ -10,20 +10,16 @@ namespace TbcBank.Ecommerce.Client.TestApp
         {
             var clientIpAddress = "127.0.0.1";
 
-            // Test Card Number: 5158819004260164
-            // Month: 02
-            // Year: 22
-            // CVV: 274
-
-
             TbcBankEcommerceClientOptions options = new TbcBankEcommerceClientOptions()
             {
-                CertPath = @"C:\Temp\tbc-test-certificate.p12",
-                CertPassword = "8xh4-S2wQALdibVV",
-                Environment = TbcEnvironment.Test
+                CertPath = @"C:\Temp\tbc-test-certificate.pfx",
+                CertPassword = "C93Og549VfrzRhKQ",
+                Environment = TbcEnvironment.Production,
+                MerchantId = "5302138",
+                Currencies = new CurrencyCode[] { CurrencyCode.GEL }
             };
 
-            TbcBankEcommerceClient client = new TbcBankEcommerceClient(options);
+            TbcBankEcommerceClient client = new TbcBankEcommerceClient(new TbcBankEcommerceClientOptions[] { options });
 
             var closeBusinessDayResult = await client.CloseBusinessDayAsync();
 
