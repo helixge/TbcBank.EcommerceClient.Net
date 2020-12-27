@@ -1,10 +1,5 @@
-﻿using Example.WebApp.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using TbcBank.EcommerceClient;
 
@@ -29,15 +24,32 @@ namespace Example.WebApp.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Pay()
         {
-            return View();
-        }
+            // If using multiple merchants, select the appropriate one
+            _tbcBankEcommerceClient
+                .SelectMerchant("0000002");
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // Create Transaction
+            var registerResult = await _tbcBankEcommerceClient
+                .RegisterTransactionAsync(
+                    100,
+                    CurrencyCode.GEL,
+                    HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    "Transaction example",
+                    PaymentUiLanguage.Georgian,
+                    "MerchantTransaction-00001"
+                );
+
+            // Check if error occured
+            if (registerResult.IsError)
+                return RedirectToAction("index");
+
+            // If succeeded then redirect user to bank page
+            var redirectUrl = _tbcBankEcommerceClient
+                .GetClientRedirectUrl(registerResult.TransactionId);
+            return Redirect(redirectUrl);
         }
     }
 }
