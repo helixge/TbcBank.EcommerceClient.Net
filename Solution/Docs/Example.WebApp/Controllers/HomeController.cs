@@ -7,15 +7,12 @@ namespace Example.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly TbcBankEcommerceClient _tbcBankEcommerceClient;
 
         public HomeController(
-            ILogger<HomeController> logger,
             TbcBankEcommerceClient tbcBankEcommerceClient
             )
         {
-            _logger = logger;
             _tbcBankEcommerceClient = tbcBankEcommerceClient;
         }
 
