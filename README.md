@@ -50,10 +50,10 @@ var clientOptions = new TbcBankEcommerceClientOptions()
     (if provided by TBC)
 
 * **MerchantId** (string)    
-  Merchant identifier. The field is optional with there is only one merchant registered. Fhe field is required when more than one merchant options are registered. You can specify any unique value to this parameter, but it is recommended to set it to the same identifier as given by the bank. It is a numeric identifier and you can find this identified in the email subject or the certificate file name sent to you by the bank.
+  Merchant identifier. The field is optional when there is only one merchant configuration registered. The field is required when more than one merchant configurations are registered. You can specify any unique value to this parameter, but it is recommended to set it to the same identifier as given by the bank. It is a numeric identifier and you can find it in the email subject or the certificate file name sent to you by the bank.
 
 * **Currencies** (CurrencyCode[])    
-  List of currencies available for the merchant. The field is optional with there is only one merchant registered. Fhe field is required when more than one merchant options are registered.
+  List of currencies available for the merchant. The field is optional with there is only one merchant registered. The field is required when more than one merchant configuration options are registered.
 
 
 
@@ -98,7 +98,7 @@ var client = new TbcBankEcommerceClient(clientOptions);
   
 * **ExecuteCreditTransactionAsync**    
   This feature should be enabled by TBC.    
-  ...    
+      
   
 
 
@@ -106,13 +106,11 @@ var client = new TbcBankEcommerceClient(clientOptions);
 
 
 ## Using Multiple Merchant Accounts
-You might need to use multiple merchant accounts and define different currencies for each of them. In this case you need to define multiple ```TbcBankEcommerceClientOptions``` and pass them to ```TbcBankEcommerceClient``` class constructor.
+You might need to use multiple merchant accounts and define different currencies for each of them due to various reasons. If this is the case, you need to define multiple ```TbcBankEcommerceClientOptions``` and pass them to ```TbcBankEcommerceClient``` class constructor.
 
-When multiple ```TbcBankEcommerceClientOptions``` are defined it is required to set ```MerchantId``` and ```Currencies``` property values to all merchant options.
+When multiple ```TbcBankEcommerceClientOptions``` are defined it is required to set ```MerchantId``` and ```Currencies``` property values to all merchant configuration options.
 
-When each merchant has separate currencies defined in the options, no additional processing is required, the appropriate merchant will automatically be selected based on the transaction currency.
-
-In case some of the  merchants share the same currency or if you are calling one of the following methods:
+Some operations do not require currency parameter:
 * ```CloseBussinessDayAsync```
 * ```CheckTransactionResultAsync```
 * ```ReverseTransactionAsync```
@@ -120,7 +118,7 @@ In case some of the  merchants share the same currency or if you are calling one
 * ```GetClientRedirectUrl```
 * ```ExecuteCreditTransactionAsync```
 
-then it is required to explicitly call ```SelectMerchant``` before any other method to set the merchant manually. Otherwise wrong merchant might be selected automatically.
+In order to make these methods work correctly in the environment with multiple merchants it is required to explicitly call ```SelectMerchant``` before any other method to set the merchant manually. Otherwise wrong merchant might be selected automatically.
 
 ### Using ```SelectMerchant``` Method
 There are two options for manually selecting a merchant
@@ -134,7 +132,7 @@ There are two options for manually selecting a merchant
 ## Integrating with ASP.NET Core
 In order to seamlessly integrate the client with ASP.NET Core dependency injection pipeline, use the following steps:
 
-1. Add an array entry in your appSettings.json file and specify one or more merchant options. For this example we eill call the entry ```Tbc```:
+1. Add an array entry in your appSettings.json file and specify one or more merchant configuration options. For this example we eill call the entry ```Tbc```:
 ```
 {
    //...other options
