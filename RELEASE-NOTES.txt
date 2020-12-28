@@ -1,4 +1,7 @@
-v.2.5.0
+v3.0.0
+    - Added possibility to configure multiple merchants
+    - Added integration with ASP.NET Core dependency injection
+v2.5.0
     - Add legacy environment called LegacyProduction for merchants using old host securepay.ufc.ge
 v2.4.0
     - Fix IsError and ErrorMessage values when exception occurs
