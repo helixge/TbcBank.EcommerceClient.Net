@@ -24,15 +24,17 @@ namespace Example.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Pay()
         {
+            var currency = CurrencyCode.GEL;
+
             // If using multiple merchants, select the appropriate one
             _tbcBankEcommerceClient
-                .SelectMerchant("0000002");
+                .SelectMerchant(currency);
 
             // Create Transaction
             var registerResult = await _tbcBankEcommerceClient
                 .RegisterTransactionAsync(
                     100,
-                    CurrencyCode.GEL,
+                    currency,
                     HttpContext.Connection.RemoteIpAddress?.ToString(),
                     "Transaction example",
                     PaymentUiLanguage.Georgian,
@@ -43,7 +45,7 @@ namespace Example.WebApp.Controllers
             if (registerResult.IsError)
                 return RedirectToAction("index");
 
-            // If succeeded then redirect user to bank page
+            // When succeeded redirect to bank page
             var redirectUrl = _tbcBankEcommerceClient
                 .GetClientRedirectUrl(registerResult.TransactionId);
             return Redirect(redirectUrl);
