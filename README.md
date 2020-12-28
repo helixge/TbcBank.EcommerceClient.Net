@@ -110,7 +110,7 @@ You might need to use multiple merchant accounts and define different currencies
 
 When multiple ```TbcBankEcommerceClientOptions``` are defined it is required to set ```MerchantId``` and ```Currencies``` property values to all merchant configuration options.
 
-Some operations do not require currency parameter:
+The appropriate merchant configuration will be selected based on the operation currency, but some operation do not require currency parameters:
 * ```CloseBussinessDayAsync```
 * ```CheckTransactionResultAsync```
 * ```ReverseTransactionAsync```
@@ -121,12 +121,15 @@ Some operations do not require currency parameter:
 In order to make these methods work correctly in the environment with multiple merchants it is required to explicitly call ```SelectMerchant``` before any other method to set the merchant manually. Otherwise wrong merchant might be selected automatically.
 
 ### Using ```SelectMerchant``` Method
-There are two options for manually selecting a merchant
+There are three overloads for manually selecting a merchant
 * **SelectMerchant** (string merchantId)    
-  The method tries to find the options with the specified `merchantId` value. Throws ```TbcBankEcommerceClientConfigurationException``` if not found.
+  Tries to find the configuration with the specified `merchantId` value. Throws ```TbcBankEcommerceClientConfigurationException``` if not found.
+
+* **SelectMerchant** (CurrencyCode currency)    
+  Tries to find the configuration with the specified `currency` value. Throws ```TbcBankEcommerceClientConfigurationException``` if not found or more than one found.
 
 * **SelectMerchant** (Func<TbcBankEcommerceClientOptions, bool> predicate)    
-  The method tries to find the options with the specified predicate. List of all options will be passed to the predicate function and the first item receiving return ```true``` will be selected. Throws ```TbcBankEcommerceClientConfigurationException``` if no items has been selected;
+  Tries to find the configuration with the specified predicate. List of all configurations will be passed to the predicate function and the first item receiving return ```true``` will be selected. Throws ```TbcBankEcommerceClientConfigurationException``` if no items has been selected;
 
 
 ## Integrating with ASP.NET Core
