@@ -12,9 +12,22 @@ namespace TbcBank.EcommerceClient
     public class TbcBankEcommerceClient
     {
         private readonly IEnumerable<TbcBankEcommerceClientOptions> _optionsList;
+        private TbcBankEcommerceClientOptions _manuallySetActiveOptions;
 
-        private TbcBankEcommerceClientOptions _activeOptions;
+        /// <summary>
+        /// Constructor used for backwards compatibility with impolementation that manually created the client
+        /// </summary>
+        /// <param name="optionsList"></param>
+        public TbcBankEcommerceClient(params TbcBankEcommerceClientOptions[] optionsList)
+            : this(optionsList.AsEnumerable())
+        {
 
+        }
+
+        /// <summary>
+        /// Constructor used by ASP.NET Core dependency injection
+        /// </summary>
+        /// <param name="optionsList"></param>
         public TbcBankEcommerceClient(IEnumerable<TbcBankEcommerceClientOptions> optionsList)
         {
             optionsList.Validate();
@@ -28,7 +41,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RegisterTransactionResult> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             var requestParameters = new Dictionary<string, string>()
             {
@@ -42,8 +55,9 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - Z
         /// </summary>
@@ -58,7 +72,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RegisterTransactionResult> RegisterTransactionAndGetReoccuringPaymentIdAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
@@ -77,8 +91,9 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - P
         /// </summary>
@@ -92,7 +107,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RegisterTransactionResult> RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
@@ -111,8 +126,9 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command  - E
         /// </summary>
@@ -126,7 +142,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<ExecuteReoccurringTransactionResult> ExecuteReoccurringTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             var requestParameters = new Dictionary<string, string>()
             {
@@ -141,8 +157,9 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - A
         /// </summary>
@@ -154,7 +171,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RegisterTransactionResult> RegisterPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             var requestParameters = new Dictionary<string, string>()
             {
@@ -168,8 +185,9 @@ namespace TbcBank.EcommerceClient
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - T
         /// </summary>
@@ -181,7 +199,7 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<ExecutePreAuthorizationResult> ExecutePreAuthorizationAsync(string transactionId, int amount, CurrencyCode currency, string clientIpAddress, string description)
         {
-            SetActiveOptions(currency);
+            var options = GetActiveOptions(currency);
 
             var requestParameters = new Dictionary<string, string>()
             {
@@ -195,8 +213,9 @@ namespace TbcBank.EcommerceClient
                 { "desc", description},
             };
 
-            return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters));
+            return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - C
         /// </summary>
@@ -205,6 +224,8 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<CheckTransactionResult> CheckTransactionResultAsync(string transactionId, string clientIpAddress)
         {
+            var options = GetActiveOptions();
+
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "c"},
@@ -212,8 +233,9 @@ namespace TbcBank.EcommerceClient
                 { "client_ip_addr", clientIpAddress}
             };
 
-            return new CheckTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new CheckTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - R
         /// </summary>
@@ -222,6 +244,8 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<ReverseTransactionResult> ReverseTransactionAsync(string transactionId, int amount)
         {
+            var options = GetActiveOptions();
+
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "r"},
@@ -229,10 +253,11 @@ namespace TbcBank.EcommerceClient
                 { "amount", amount.ToString() }
             };
 
-            return new ReverseTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new ReverseTransactionResult(await MakePostRequestAsync(requestParameters, options));
 
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Command - K
         /// </summary>
@@ -241,6 +266,8 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RefundTransactionResult> RefundTransactionAsync(string transactionId, int amount)
         {
+            var options = GetActiveOptions();
+
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "k"},
@@ -248,8 +275,9 @@ namespace TbcBank.EcommerceClient
                 { "amount", amount.ToString() }
             };
 
-            return new RefundTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new RefundTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - G
         /// </summary>
@@ -258,33 +286,39 @@ namespace TbcBank.EcommerceClient
         /// <param name="description"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<ExecuteCreditTransactionResult> ExecuteCreditTransactionAsync(int amount, string billerClientId, string description, string merchantTransactionId = null)
+        public async Task<ExecuteCreditTransactionResult> ExecuteCreditTransactionAsync(int amount, CurrencyCode currency, string billerClientId, string description, string merchantTransactionId = null)
         {
+            var options = GetActiveOptions();
 
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "ag"},
                 { "amount", amount.ToString()},
+                { "currency", ((int)currency).ToString() },
                 { "trans_id", billerClientId},
                 { "description", description},
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
-            return new ExecuteCreditTransactionResult(await MakePostRequestAsync(requestParameters));
+            return new ExecuteCreditTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Command - B
         /// </summary>
         /// <returns></returns>
         public async Task<CloseBusinessDayResult> CloseBusinessDayAsync()
         {
+            var options = GetActiveOptions();
+
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "b"},
             };
 
-            return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters));
+            return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters, options));
         }
+
         /// <summary>
         /// Gets redirect URL where the client should be navigated to enter card details
         /// </summary>
@@ -292,66 +326,96 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public string GetClientRedirectUrl(string transactionId)
         {
-            SetActiveOptions();
-            var url = ServiceUrlBuilderHelper.GetClientHandlerUrl(_activeOptions.Environment);
+            var options = GetActiveOptions();
+
+            var url = ServiceUrlBuilderHelper.GetClientHandlerUrl(options.Environment);
             return $"{url}?trans_id={System.Web.HttpUtility.UrlEncode(transactionId)}";
         }
+
         /// <summary>
         /// Sets the specific merchant to use when communicating with the Bank.
-        /// If you use multiple mechants you can explicitly call this method to set a specific method.
-        /// Otherwise the best option will be automatically selected based on the operation currency
+        /// If you use multiple mechants you should explicitly call this method to set a specific active merchant, that will be used by other methods,
+        /// otherwise the system will try to find a matching merchant automatically and might not select the one you might actually need.
         /// </summary>
+        /// <param name="merchantId">MerchantID specified in the configuration options</param>
+        /// <exception cref="TbcBankEcommerceClientConfigurationException">Thrown when merchant configuration not found</exception>
         public void SelectMerchant(string merchantId)
         {
             var merchantOptions = _optionsList
                 .FirstOrDefault(o => o.MerchantId == merchantId);
 
             if (merchantOptions == null)
-                throw new TbcBankEcommerceClientConfigurationException($"Merchant not found with the id '{merchantId}'");
+                throw new TbcBankEcommerceClientConfigurationException($"Merchant configuration not found with the id '{merchantId}'");
 
-            _activeOptions = merchantOptions;
+            _manuallySetActiveOptions = merchantOptions;
         }
+
         /// <summary>
         /// Sets the specific merchant to use when communicating with the Bank.
-        /// If you use multiple mechants you can explicitly call this method to set a specific method.
-        /// Otherwise the best option will be automatically selected based on the operation currency
+        /// If you use multiple mechants you should explicitly call this method to set a specific active merchant, that will be used by other methods,
+        /// otherwise the system will try to find a matching merchant automatically and might not select the one you might actually need.
         /// </summary>
+        /// <param name="predicate">Will provide list of all available options. Will select the first option where the match returns true. Used LINQ FirstOrDefault internally</param>
+        /// <exception cref="TbcBankEcommerceClientConfigurationException">Thrown when merchant configuration not found</exception>
         public void SelectMerchant(Func<TbcBankEcommerceClientOptions, bool> predicate)
         {
             var merchantOptions = _optionsList
                 .FirstOrDefault(predicate);
 
             if (merchantOptions == null)
-                throw new TbcBankEcommerceClientConfigurationException($"Merchant not found using the predicate");
+                throw new TbcBankEcommerceClientConfigurationException($"Merchant configuration not found using the predicate");
 
-            _activeOptions = merchantOptions;
+            _manuallySetActiveOptions = merchantOptions;
         }
 
-        private void SetActiveOptions(CurrencyCode? currencyCode = null)
+        /// <summary>
+        /// Sets the specific merchant to use when communicating with the Bank.
+        /// If you use multiple mechants you should explicitly call this method to set a specific active merchant, that will be used by other methods,
+        /// otherwise the system will try to find a matching merchant automatically and might not select the one you might actually need.
+        /// </summary>
+        /// <param name="currency">Currency to search for</param>
+        /// <exception cref="TbcBankEcommerceClientConfigurationException">Thrown when merchant configuration not found or more than one merchant configuration found with the specified currency</exception>
+        public void SelectMerchant(CurrencyCode currency)
         {
-            if (_activeOptions != null)
-                return;
+            var merchantOptionsList = _optionsList
+                .Where(o => o.Currencies.Contains(currency))
+                .ToList();
+
+            if (merchantOptionsList.Count == 0)
+                throw new TbcBankEcommerceClientConfigurationException($"Merchant configuration not found using the speficied currency '{currency.ToString()}'");
+
+            if (merchantOptionsList.Count > 1)
+                throw new TbcBankEcommerceClientConfigurationException($"More than one merchant configuration not found using the speficied currency '{currency.ToString()}'");
+
+            _manuallySetActiveOptions = merchantOptionsList.First();
+        }
+
+        private TbcBankEcommerceClientOptions GetActiveOptions(CurrencyCode? currencyCode = null)
+        {
+            if (_manuallySetActiveOptions != null)
+                return _manuallySetActiveOptions;
+
+            TbcBankEcommerceClientOptions activeOptions = null;
 
             if (currencyCode.HasValue)
-                _activeOptions = _optionsList
+                activeOptions = _optionsList
                     .FirstOrDefault(o => o.Currencies.Contains(currencyCode.Value));
 
-            if (_activeOptions == null)
-                _activeOptions = _optionsList
+            if (activeOptions == null)
+                activeOptions = _optionsList
                     .FirstOrDefault();
 
-            if (_activeOptions == null)
+            if (activeOptions == null)
                 throw new TbcBankEcommerceClientConfigurationException("Failed to select active options");
 
+            return activeOptions;
         }
         private DateTimeOffset GetDefaultExpiryDate()
         {
             return DateTimeOffset.UtcNow.Date.AddYears(10);
         }
-        private async Task<HttpRequestResult> MakePostRequestAsync(IDictionary<string, string> requestParameters)
+        private async Task<HttpRequestResult> MakePostRequestAsync(IDictionary<string, string> requestParameters, TbcBankEcommerceClientOptions options)
         {
-            SetActiveOptions();
-
             if (requestParameters is null)
                 throw new ArgumentNullException(nameof(requestParameters));
 
@@ -370,17 +434,17 @@ namespace TbcBank.EcommerceClient
 
             HttpRequestResult result = new HttpRequestResult()
             {
-                RequestUrl = ServiceUrlBuilderHelper.GetMerchantHandlerUrl(_activeOptions.Environment),
+                RequestUrl = ServiceUrlBuilderHelper.GetMerchantHandlerUrl(options.Environment),
                 RequestQuery = queryBuilder.ToString()
             };
 
             try
             {
-                using var handler = GetHttpClientHandler();
+                using var handler = GetHttpClientHandler(options);
 
                 handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
 
-                using var certificate = CreateCertificate();
+                using var certificate = CreateCertificate(options);
 
                 handler.ClientCertificates.Add(certificate);
 
@@ -402,11 +466,9 @@ namespace TbcBank.EcommerceClient
 
             return result;
         }
-        private HttpClientHandler GetHttpClientHandler()
+        private HttpClientHandler GetHttpClientHandler(TbcBankEcommerceClientOptions options)
         {
-            SetActiveOptions();
-
-            if (_activeOptions.Environment == TbcEnvironment.LegacyProduction)
+            if (options.Environment == TbcEnvironment.LegacyProduction)
                 return new HttpClientHandler
                 {
                     ClientCertificateOptions = ClientCertificateOption.Manual
@@ -418,15 +480,13 @@ namespace TbcBank.EcommerceClient
                 SslProtocols = SslProtocols.Tls12,
             };
         }
-        private X509Certificate2 CreateCertificate()
+        private X509Certificate2 CreateCertificate(TbcBankEcommerceClientOptions options)
         {
             try
             {
-                SetActiveOptions();
-
-                return _activeOptions.CertData != null
-                      ? new X509Certificate2(_activeOptions.CertData, _activeOptions.CertPassword, X509KeyStorageFlags.MachineKeySet)
-                      : new X509Certificate2(_activeOptions.CertPath, _activeOptions.CertPassword, X509KeyStorageFlags.MachineKeySet);
+                return options.CertData != null
+                      ? new X509Certificate2(options.CertData, options.CertPassword, X509KeyStorageFlags.MachineKeySet)
+                      : new X509Certificate2(options.CertPath, options.CertPassword, X509KeyStorageFlags.MachineKeySet);
             }
             catch (Exception ex)
             {
