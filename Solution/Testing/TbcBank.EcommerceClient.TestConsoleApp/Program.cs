@@ -15,8 +15,8 @@ namespace TbcBank.Ecommerce.Client.TestApp
                 CertPath = @"C:\Temp\tbc-test-certificate.pfx",
                 CertPassword = "C93Og549VfrzRhKQ",
                 Environment = TbcEnvironment.Production,
-                MerchantId = "5302138",
-                Currencies = new CurrencyCode[] { CurrencyCode.GEL }
+                //MerchantId = "5302138",
+                //Currencies = new CurrencyCode[] { CurrencyCode.GEL }
             };
 
             TbcBankEcommerceClient client = new TbcBankEcommerceClient(new TbcBankEcommerceClientOptions[] { options });
