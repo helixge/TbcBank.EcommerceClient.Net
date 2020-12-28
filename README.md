@@ -7,6 +7,8 @@
 > :warning: ⚠️ **Version 2 has introduced breaking chnages.** See [RELEASE NOTES](https://github.com/helixge/TbcBank.EcommerceClient.Net/blob/master/RELEASE-NOTES.txt) for more details
 
 ## How To Use
+See [ASP.NET Core integration guide](#integrating-with-asp-net-core) below
+
 ### Define options
 You can specify either file path or file data content to the options.
 
@@ -139,6 +141,7 @@ In order to seamlessly integrate the client with ASP.NET Core dependency injecti
 ```
 {
    //...other options
+   
    "Tbc": [
     {
       "MerchantId": "0000001",
@@ -155,19 +158,20 @@ In order to seamlessly integrate the client with ASP.NET Core dependency injecti
       "Currencies": [ "USD" ]
     }
   ]
+  
    //...other options
 }
 ```
 
 2. call the following extension method in ```ConfigureServices``` method of ```Startup.cs``` file and specify the condifuration parameter name containing the options array:
-````
+````csharp
 services.AddTbcBankEcommerce(
   Configuration.GetTbcBankEcommerceOptions("Tbc")
 );
 ````
 
 3. Inject ```TbcBankEcommerceClient```:
-````
+````csharp
 public class HomeController : Controller
 {
     private readonly TbcBankEcommerceClient _tbcBankEcommerceClient;
