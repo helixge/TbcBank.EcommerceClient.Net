@@ -387,26 +387,36 @@ namespace TbcBank.EcommerceClient
             if (merchantOptionsList.Count > 1)
                 throw new TbcBankEcommerceClientConfigurationException($"More than one merchant configuration not found using the speficied currency '{currency.ToString()}'");
 
-            _manuallySetActiveOptions = merchantOptionsList.First();
+            _manuallySetActiveOptions = merchantOptionsList
+                .First();
         }
 
-        private TbcBankEcommerceClientOptions GetActiveOptions(CurrencyCode? currencyCode = null)
+        private TbcBankEcommerceClientOptions GetActiveOptions(CurrencyCode? currency = null)
         {
             if (_manuallySetActiveOptions != null)
                 return _manuallySetActiveOptions;
 
             TbcBankEcommerceClientOptions activeOptions = null;
 
-            if (currencyCode.HasValue)
-                activeOptions = _optionsList
-                    .FirstOrDefault(o => o.Currencies.Contains(currencyCode.Value));
+            if (currency.HasValue)
+            {
+                var currencyDefinedOptions = _optionsList
+                    .Where(o => o.Currencies.Contains(currency.Value))
+                    .ToList();
+
+                if (currencyDefinedOptions.Count > 1)
+                    throw new TbcBankEcommerceClientConfigurationException($"More than one merchant configuration not found using the speficied currency '{currency.Value.ToString()}'");
+
+                activeOptions = currencyDefinedOptions
+                    .First();
+            }
 
             if (activeOptions == null)
                 activeOptions = _optionsList
                     .FirstOrDefault();
 
             if (activeOptions == null)
-                throw new TbcBankEcommerceClientConfigurationException("Failed to select active options");
+                throw new TbcBankEcommerceClientConfigurationException("Failed to auto-select active options");
 
             return activeOptions;
         }
