@@ -29,7 +29,7 @@ namespace TbcBank.EcommerceClient
         public async Task<RegisterTransactionResult> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             SetActiveOptions(currency);
-          
+
             var requestParameters = new Dictionary<string, string>()
             {
                 {"command", "v"},
@@ -376,27 +376,23 @@ namespace TbcBank.EcommerceClient
 
             try
             {
-                using (var handler = GetHttpClientHandler())
-                {
-                    handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
+                using var handler = GetHttpClientHandler();
 
-                    using (var certificate = CreateCertificate())
-                    {
-                        handler.ClientCertificates.Add(certificate);
+                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
 
-                        using (HttpClient client = new HttpClient(handler))
-                        {
-                            using (var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded"))
-                            {
-                                var responseMessage = await client.PostAsync(result.RequestUrl, content);
+                using var certificate = CreateCertificate();
 
-                                result.HttpStatsCode = responseMessage.StatusCode;
-                                result.Success = responseMessage.IsSuccessStatusCode;
-                                result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
-                            }
-                        }
-                    }
-                }
+                handler.ClientCertificates.Add(certificate);
+
+                using var client = new HttpClient(handler);
+
+                using var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+                var responseMessage = await client.PostAsync(result.RequestUrl, content);
+
+                result.HttpStatsCode = responseMessage.StatusCode;
+                result.Success = responseMessage.IsSuccessStatusCode;
+                result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {
