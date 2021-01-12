@@ -7,7 +7,7 @@
 > :warning: ⚠️ **Version 2 has introduced breaking chnages.** See [RELEASE NOTES](https://github.com/helixge/TbcBank.EcommerceClient.Net/blob/master/RELEASE-NOTES.txt) for more details
 
 ## How To Use
-See [ASP.NET Core integration guide](#integrating-with-asp-net-core) below
+See [ASP.NET Core integration guide](#integrating-with-aspnet-core) below
 
 ### Define options
 You can specify either file path or file data content to the options.
