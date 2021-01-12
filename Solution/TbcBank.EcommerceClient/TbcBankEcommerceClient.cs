@@ -15,16 +15,6 @@ namespace TbcBank.EcommerceClient
         private TbcBankEcommerceClientOptions _manuallySetActiveOptions;
 
         /// <summary>
-        /// Constructor used for backwards compatibility with impolementation that manually created the client
-        /// </summary>
-        /// <param name="optionsList"></param>
-        public TbcBankEcommerceClient(params TbcBankEcommerceClientOptions[] optionsList)
-            : this(optionsList.AsEnumerable())
-        {
-
-        }
-
-        /// <summary>
         /// Constructor used by ASP.NET Core dependency injection
         /// </summary>
         /// <param name="optionsList"></param>
