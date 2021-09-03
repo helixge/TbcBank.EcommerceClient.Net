@@ -35,13 +35,13 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                {"command", "v"},
-                {"msg_type", "SMS"},
-                {"amount", amount.ToString()},
-                {"currency", ((int)currency).ToString() },
-                {"client_ip_addr", clientIpAddress},
-                {"description", description},
-                {"language", language},
+                { "command", "v" },
+                { "msg_type", "SMS" },
+                { "amount", amount.ToString() },
+                { "currency", ((int)currency).ToString() },
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -62,22 +62,27 @@ namespace TbcBank.EcommerceClient
         /// <returns></returns>
         public async Task<RegisterTransactionResult> RegisterTransactionAndGetReoccuringPaymentIdAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
+            if (amount == 0)
+            {
+                return await RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(currency, clientIpAddress, description, recurringPaymentUniqueId, expiryDate, language, merchantTransactionId);
+            }
+
             var options = GetActiveOptions(currency);
 
             expiryDate = expiryDate ?? GetDefaultExpiryDate();
 
             var requestParameters = new Dictionary<string, string>()
             {
-                {"command", "z"},
-                {"msg_type", "SMS"},
-                {"amount", amount.ToString()},
-                {"currency", ((int)currency).ToString() },
-                {"client_ip_addr", clientIpAddress},
-                {"description", description},
-                {"language", language},
-                {"biller_client_id", recurringPaymentUniqueId},
-                {"perspayee_expiry", expiryDate.Value.ToString("MMyy")},
-                { "perspayee_gen", "1"},
+                { "command", "z" },
+                { "msg_type", "SMS" },
+                { "amount", amount.ToString() },
+                { "currency", ((int)currency).ToString() },
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
+                { "biller_client_id", recurringPaymentUniqueId },
+                { "perspayee_expiry", expiryDate.Value.ToString("MMyy") },
+                { "perspayee_gen", "1" },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -103,16 +108,15 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                {"command", "p"},
-                {"msg_type", "AUTH"},
-                {"amount", "0"},
-                {"currency", ((int)currency).ToString() },
-                {"client_ip_addr", clientIpAddress},
-                {"description", description},
-                {"language", language},
-                {"biller_client_id", recurringPaymentUniqueId},
-                {"perspayee_expiry", expiryDate.Value.ToString("MMyy")},
-                { "perspayee_gen", "1"},
+                { "command", "p" },
+                { "msg_type", "AUTH" },
+                { "currency", ((int)currency).ToString() },
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
+                { "biller_client_id", recurringPaymentUniqueId },
+                { "perspayee_expiry", expiryDate.Value.ToString("MMyy") },
+                { "perspayee_gen", "1" },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -136,14 +140,14 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "e"},
-                { "amount", amount.ToString()},
+                { "command", "e" },
+                { "amount", amount.ToString() },
                 { "currency", ((int)currency).ToString() },
-                { "client_ip_addr", clientIpAddress},
-                { "description", description},
-                { "desc", description},
-                { "language", language},
-                { "biller_client_id", billerClientId},
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "desc", description },
+                { "language", language },
+                { "biller_client_id", billerClientId },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -165,13 +169,13 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "a"},
-                { "msg_type", "DMS"},
-                { "amount", amount.ToString()},
+                { "command", "a" },
+                { "msg_type", "DMS" },
+                { "amount", amount.ToString() },
                 { "currency", ((int)currency).ToString() },
-                { "client_ip_addr", clientIpAddress},
-                { "description", description},
-                { "language", language},
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -193,14 +197,14 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "t"},
-                { "msg_type", "DMS"},
-                { "trans_id", transactionId},
-                { "amount", amount.ToString()},
+                { "command", "t" },
+                { "msg_type", "DMS" },
+                { "trans_id", transactionId },
+                { "amount", amount.ToString() },
                 { "currency", ((int)currency).ToString() },
-                { "client_ip_addr", clientIpAddress},
-                { "description", description},
-                { "desc", description},
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "desc", description },
             };
 
             return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters, options));
@@ -218,9 +222,9 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "c"},
-                { "trans_id", transactionId},
-                { "client_ip_addr", clientIpAddress}
+                { "command", "c" },
+                { "trans_id", transactionId },
+                { "client_ip_addr", clientIpAddress }
             };
 
             return new CheckTransactionResult(await MakePostRequestAsync(requestParameters, options));
@@ -238,14 +242,12 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "r"},
+                { "command", "r" },
                 { "trans_id", transactionId },
                 { "amount", amount.ToString() }
             };
 
             return new ReverseTransactionResult(await MakePostRequestAsync(requestParameters, options));
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -260,7 +262,7 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "k"},
+                { "command", "k" },
                 { "trans_id", transactionId },
                 { "amount", amount.ToString() }
             };
@@ -282,11 +284,11 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "ag"},
-                { "amount", amount.ToString()},
+                { "command", "ag" },
+                { "amount", amount.ToString() },
                 { "currency", ((int)currency).ToString() },
-                { "trans_id", billerClientId},
-                { "description", description},
+                { "trans_id", billerClientId },
+                { "description", description },
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
@@ -303,7 +305,7 @@ namespace TbcBank.EcommerceClient
 
             var requestParameters = new Dictionary<string, string>()
             {
-                { "command", "b"},
+                { "command", "b" },
             };
 
             return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters, options));
