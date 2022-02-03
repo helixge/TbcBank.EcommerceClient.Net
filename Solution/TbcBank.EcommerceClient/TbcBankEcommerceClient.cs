@@ -396,15 +396,17 @@ namespace TbcBank.EcommerceClient
 
             if (currency.HasValue)
             {
-                var currencyDefinedOptions = _optionsList
-                    .Where(o => o.Currencies.Contains(currency.Value))
+                List<TbcBankEcommerceClientOptions> currencyDefinedOptions = _optionsList
+                    .Where(o =>
+                        o.Currencies != null
+                        && o.Currencies.Contains(currency.Value))
                     .ToList();
 
                 if (currencyDefinedOptions.Count > 1)
-                    throw new TbcBankEcommerceClientConfigurationException($"More than one merchant configuration not found using the speficied currency '{currency.Value.ToString()}'");
+                    throw new TbcBankEcommerceClientConfigurationException($"More than one merchant configuration not found using the speficied currency '{currency.Value}'");
 
                 activeOptions = currencyDefinedOptions
-                    .First();
+                    .FirstOrDefault();
             }
 
             if (activeOptions == null)

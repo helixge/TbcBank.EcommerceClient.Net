@@ -16,17 +16,24 @@ namespace TbcBank.Ecommerce.Client.TestApp
             var options = new TbcBankEcommerceClientOptions()
             {
                 CertPath = @"C:\Temp\tbc-test-certificate.pfx",
-                CertPassword = "-CERTIFICATE-PASSWORD-",
+                CertPassword = "rdUR6X0qzHK4x9F2",
                 Environment = TbcEnvironment.Production
             };
             TbcBankEcommerceClient client = new TbcBankEcommerceClient(merchantHttpClientFactory, new[] { options });
 
-            CloseBusinessDayResult closeBusinessDayResult
-                = await client.CloseBusinessDayAsync();
+            {
+                // CloseBusinessDayResult
+
+                CloseBusinessDayResult closeBusinessDayResult
+                    = await client.CloseBusinessDayAsync();
+            }
 
             {
+                // One-time transaction without pre-authorization
+
                 RegisterTransactionResult registerTransactionResult
                     = await client.RegisterTransactionAsync(1, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterTransaction", PaymentUiLanguage.Georgian, "MerchantId-001");
+
                 string redirectUrl
                     = client.GetClientRedirectUrl(registerTransactionResult.TransactionId);
 
@@ -34,13 +41,17 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
                 CheckTransactionResult checkTransactionResult
                     = await client.CheckTransactionResultAsync(registerTransactionResult.TransactionId, ClientIpAddress);
+
                 ReverseTransactionResult reverseResult
                     = await client.ReverseTransactionAsync(registerTransactionResult.TransactionId, 1);
             }
 
             {
+                // One-time transaction with pre-authorization
+
                 RegisterTransactionResult preauthorizationResult
                     = await client.RegisterPreAuthorizationAsync(2, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterPreAuthorization", PaymentUiLanguage.English, "MerchantId-001");
+
                 string redirectUrl
                     = client.GetClientRedirectUrl(preauthorizationResult.TransactionId);
 
@@ -48,17 +59,24 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
                 CheckTransactionResult checkPreauthorizationResult1
                     = await client.CheckTransactionResultAsync(preauthorizationResult.TransactionId, ClientIpAddress);
-                await client.ExecutePreAuthorizationAsync(preauthorizationResult.TransactionId, 2, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterPreAuthorization - Exec");
+
+                ExecutePreAuthorizationResult ExecutePreAuthorizationResult = await client.ExecutePreAuthorizationAsync(preauthorizationResult.TransactionId, 2, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterPreAuthorization - Exec");
+
                 CheckTransactionResult checkPreauthorizationExecResul
                     = await client.CheckTransactionResultAsync(preauthorizationResult.TransactionId, ClientIpAddress);
+
                 RefundTransactionResult refundResult
                     = await client.RefundTransactionAsync(preauthorizationResult.TransactionId, 1);
             }
 
             {
+                // Reoccuring transaction with first charge
+
                 string billerClientId = Guid.NewGuid().ToString();
+
                 RegisterTransactionResult registerTransactionAndGetReoccuringPaymentIdResult
                     = await client.RegisterTransactionAndGetReoccuringPaymentIdAsync(3, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterTransactionAndGetReoccuringPaymentIdAsync", billerClientId);
+
                 string redirectUrl
                     = client.GetClientRedirectUrl(registerTransactionAndGetReoccuringPaymentIdResult.TransactionId);
 
@@ -66,36 +84,40 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
                 CheckTransactionResult checkTransactionAndGetReoccuringPaymentIdResult
                     = await client.CheckTransactionResultAsync(registerTransactionAndGetReoccuringPaymentIdResult.TransactionId, ClientIpAddress);
-            }
 
-            {
-                string billerClientId = Guid.NewGuid().ToString();
                 ExecuteReoccurringTransactionResult executeReoccurringTransactionResult
                     = await client.ExecuteReoccurringTransactionAsync(4, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - ExecuteReoccurringTransactionAsync", billerClientId);
+
                 CheckTransactionResult checkExecuteReoccurringTransactionResult
                     = await client.CheckTransactionResultAsync(executeReoccurringTransactionResult.TransactionId, ClientIpAddress);
+
                 ReverseTransactionResult reverseResult
                     = await client.ReverseTransactionAsync(executeReoccurringTransactionResult.TransactionId, 1);
+
                 RefundTransactionResult refundResult
                     = await client.RefundTransactionAsync(executeReoccurringTransactionResult.TransactionId, 1);
             }
 
             {
+
+                // Reoccuring transaction without charge
                 string billerClientId = Guid.NewGuid().ToString();
+
                 RegisterTransactionResult registerTransactionResult
                     = await client.RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterTransactionAndGetReoccuringPaymentIdAsync", billerClientId);
+
                 string redirectUrl
                     = client.GetClientRedirectUrl(registerTransactionResult.TransactionId);
 
                 OpenUrlInBworser(redirectUrl);
 
-                var checkTransactionAndGetReoccuringPaymentIdWithoutChargeResult = await client.CheckTransactionResultAsync((await client.RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterTransactionAndGetReoccuringPaymentIdAsync", billerClientId)).TransactionId, ClientIpAddress);
+                CheckTransactionResult checkTransactionAndGetReoccuringPaymentIdWithoutChargeResult = await client.CheckTransactionResultAsync((await client.RegisterTransactionAndGetReoccuringPaymentIdWithoutChargeAsync(CurrencyCode.GEL, ClientIpAddress, "Test Transaction - RegisterTransactionAndGetReoccuringPaymentIdAsync", billerClientId)).TransactionId, ClientIpAddress);
             }
         }
 
         private static void OpenUrlInBworser(string url)
         {
-            Process.Start(url);
+            Process.Start("cmd", $"/C start {url}");
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }

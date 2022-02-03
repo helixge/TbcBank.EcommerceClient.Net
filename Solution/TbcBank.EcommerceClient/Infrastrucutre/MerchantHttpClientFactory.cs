@@ -27,7 +27,7 @@ namespace TbcBank.EcommerceClient
 
         public HttpClient GetHttpClient(TbcBankEcommerceClientOptions options)
         {
-            string merchantId = options?.MerchantId;
+            string merchantId = options?.MerchantId ?? String.Empty;
 
             lock (_httpClientsLocker)
             {

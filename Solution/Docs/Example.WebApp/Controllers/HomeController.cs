@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using TbcBank.EcommerceClient;
 
@@ -48,6 +47,7 @@ namespace Example.WebApp.Controllers
             // When succeeded redirect to bank page
             var redirectUrl = _tbcBankEcommerceClient
                 .GetClientRedirectUrl(registerResult.TransactionId);
+
             return Redirect(redirectUrl);
         }
     }

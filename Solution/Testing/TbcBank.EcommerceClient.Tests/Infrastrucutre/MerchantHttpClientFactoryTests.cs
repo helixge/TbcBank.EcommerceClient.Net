@@ -19,7 +19,27 @@ namespace TbcBank.EcommerceClient.Tests.Infrastrucutre
         public void GetHttpClient_ValidOptions_ReturnsNewInstance()
         {
             // Arrange
+            var options = new TbcBankEcommerceClientOptions()
+            {
+                MerchantId = "TestMerchant",
+                Environment = TbcEnvironment.Production,
+                CertPath = TestResource.TestCertificatePath,
+                CertPassword = TestResource.TestCertificatePassword
+            };
+
+            // Act
+            HttpClient httpClient = _sut.GetHttpClient(options);
+
+            // Assert
+            Assert.NotNull(httpClient);
+        }
+
+        [Fact]
+        public void GetHttpClient_NullMerchantId_ReturnsNewInstance()
+        {
+            // Arrange
             TbcBankEcommerceClientOptions options = CreateTestOptions();
+            options.MerchantId = null;
 
             // Act
             HttpClient httpClient = _sut.GetHttpClient(options);
