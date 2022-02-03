@@ -11,6 +11,7 @@ namespace TbcBank.EcommerceClient
 {
     public class TbcBankEcommerceClient
     {
+        private readonly IMerchantHttpClientFactory _merchantHttpClientFactory;
         private readonly IEnumerable<TbcBankEcommerceClientOptions> _optionsList;
         private TbcBankEcommerceClientOptions _manuallySetActiveOptions;
 
@@ -18,9 +19,12 @@ namespace TbcBank.EcommerceClient
         /// Constructor used by ASP.NET Core dependency injection
         /// </summary>
         /// <param name="optionsList"></param>
-        public TbcBankEcommerceClient(IEnumerable<TbcBankEcommerceClientOptions> optionsList)
+        public TbcBankEcommerceClient(
+            IMerchantHttpClientFactory merchantHttpClientFactory,
+            IEnumerable<TbcBankEcommerceClientOptions> optionsList)
         {
             optionsList.Validate();
+            _merchantHttpClientFactory = merchantHttpClientFactory;
             _optionsList = optionsList;
         }
 
@@ -442,23 +446,15 @@ namespace TbcBank.EcommerceClient
 
             try
             {
-                using var handler = GetHttpClientHandler(options);
-
-                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
-
-                using var certificate = CreateCertificate(options);
-
-                handler.ClientCertificates.Add(certificate);
-
-                using var client = new HttpClient(handler);
-
                 using var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded");
-
-                var responseMessage = await client.PostAsync(result.RequestUrl, content);
+                HttpClient client = _merchantHttpClientFactory.GetHttpClient(options);
+                HttpResponseMessage responseMessage = await client.PostAsync(result.RequestUrl, content);
 
                 result.HttpStatsCode = responseMessage.StatusCode;
                 result.Success = responseMessage.IsSuccessStatusCode;
                 result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
+
+                responseMessage.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
@@ -468,32 +464,32 @@ namespace TbcBank.EcommerceClient
 
             return result;
         }
-        private HttpClientHandler GetHttpClientHandler(TbcBankEcommerceClientOptions options)
-        {
-            if (options.Environment == TbcEnvironment.LegacyProduction)
-                return new HttpClientHandler
-                {
-                    ClientCertificateOptions = ClientCertificateOption.Manual
-                };
+        //private HttpClientHandler GetHttpClientHandler(TbcBankEcommerceClientOptions options)
+        //{
+        //    if (options.Environment == TbcEnvironment.LegacyProduction)
+        //        return new HttpClientHandler
+        //        {
+        //            ClientCertificateOptions = ClientCertificateOption.Manual
+        //        };
 
-            return new HttpClientHandler
-            {
-                ClientCertificateOptions = ClientCertificateOption.Manual,
-                SslProtocols = SslProtocols.Tls12,
-            };
-        }
-        private X509Certificate2 CreateCertificate(TbcBankEcommerceClientOptions options)
-        {
-            try
-            {
-                return options.CertData != null
-                      ? new X509Certificate2(options.CertData, options.CertPassword, X509KeyStorageFlags.MachineKeySet)
-                      : new X509Certificate2(options.CertPath, options.CertPassword, X509KeyStorageFlags.MachineKeySet);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Failed to create X509Certificate2", ex);
-            }
-        }
+        //    return new HttpClientHandler
+        //    {
+        //        ClientCertificateOptions = ClientCertificateOption.Manual,
+        //        SslProtocols = SslProtocols.Tls12,
+        //    };
+        //}
+        //private X509Certificate2 CreateCertificate(TbcBankEcommerceClientOptions options)
+        //{
+        //    try
+        //    {
+        //        return options.CertData != null
+        //              ? new X509Certificate2(options.CertData, options.CertPassword, X509KeyStorageFlags.MachineKeySet)
+        //              : new X509Certificate2(options.CertPath, options.CertPassword, X509KeyStorageFlags.MachineKeySet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Failed to create X509Certificate2", ex);
+        //    }
+        //}
     }
 }

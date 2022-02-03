@@ -11,13 +11,15 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
         static async Task Main(string[] args)
         {
+            IMerchantHttpClientFactory merchantHttpClientFactory = new MerchantHttpClientFactory();
+
             var options = new TbcBankEcommerceClientOptions()
             {
                 CertPath = @"C:\Temp\tbc-test-certificate.pfx",
-                CertPassword = "C93Og549VfrzRhKQ",
+                CertPassword = "-CERTIFICATE-PASSWORD-",
                 Environment = TbcEnvironment.Production
             };
-            TbcBankEcommerceClient client = new TbcBankEcommerceClient(new[] { options });
+            TbcBankEcommerceClient client = new TbcBankEcommerceClient(merchantHttpClientFactory, new[] { options });
 
             CloseBusinessDayResult closeBusinessDayResult
                 = await client.CloseBusinessDayAsync();

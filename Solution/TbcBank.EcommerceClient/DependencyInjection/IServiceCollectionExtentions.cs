@@ -7,11 +7,12 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddTbcBankEcommerce(this IServiceCollection services, IEnumerable<TbcBankEcommerceClientOptions> options)
         {
+            services.AddSingleton<IMerchantHttpClientFactory, MerchantHttpClientFactory>();
             services.AddTransient<TbcBankEcommerceClient, TbcBankEcommerceClient>();
 
-            foreach (var optionsEntry in options)
+            foreach (TbcBankEcommerceClientOptions optionsEntry in options)
             {
-                services.AddTransient<TbcBankEcommerceClientOptions>(serviceProvider => optionsEntry);
+                services.AddTransient(_ => optionsEntry);
             }
 
             return services;
