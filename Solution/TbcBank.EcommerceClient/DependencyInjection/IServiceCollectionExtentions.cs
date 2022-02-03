@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using TbcBank.EcommerceClient;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -10,12 +7,12 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddTbcBankEcommerce(this IServiceCollection services, IEnumerable<TbcBankEcommerceClientOptions> options)
         {
-            services
-                .AddTransient<TbcBankEcommerceClient, TbcBankEcommerceClient>();
+            services.AddTransient<TbcBankEcommerceClient, TbcBankEcommerceClient>();
 
             foreach (var optionsEntry in options)
-                services
-                    .AddTransient<TbcBankEcommerceClientOptions>(serviceProvider => optionsEntry);
+            {
+                services.AddTransient<TbcBankEcommerceClientOptions>(serviceProvider => optionsEntry);
+            }
 
             return services;
         }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace TbcBank.EcommerceClient
 {
@@ -33,20 +32,24 @@ namespace TbcBank.EcommerceClient
         /// </summary>
         public CurrencyCode[] Currencies { get; set; }
 
-        public void Validate(bool validateMerchandId = false, bool validateCurrencies = false)
+        public void Validate(bool validateMerchantIdAndCurrencies)
         {
-            if (CertData != null && !String.IsNullOrWhiteSpace(CertPath))
+            if (CertData != null
+                && !String.IsNullOrWhiteSpace(CertPath))
                 throw new Exception("Invalid options, both CertData and CertPath are assigned. Only one of them can be assigned");
 
-            if (CertData == null && String.IsNullOrWhiteSpace(CertPath))
+            if (CertData == null
+                && String.IsNullOrWhiteSpace(CertPath))
                 throw new Exception("Invalid options, neither CertData not CertPath are assigned. One of them should be assigned.");
 
-            if (validateMerchandId && String.IsNullOrWhiteSpace(MerchantId))
+            if (validateMerchantIdAndCurrencies
+                && String.IsNullOrWhiteSpace(MerchantId))
                 throw new Exception("Invalid options, merchant ID is not defined");
 
-            if (validateCurrencies && !(Currencies?.Length > 0))
+            if (validateMerchantIdAndCurrencies
+                && Currencies != null
+                && !Currencies.Any())
                 throw new Exception("Invalid options, no currencies have been defined");
-
         }
     }
 }

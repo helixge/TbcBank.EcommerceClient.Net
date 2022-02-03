@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
@@ -15,10 +13,12 @@ namespace TbcBank.EcommerceClient
             if (optionsList.Count() == 0)
                 throw new TbcBankEcommerceClientConfigurationException("Options list is empty");
 
-            var shoudlValidateMerchantIdAndCurrencies = optionsList.Count() > 1;
+            bool validateMerchantIdAndCurrencies = optionsList.Count() > 1;
 
             foreach (var options in optionsList)
-                options.Validate(shoudlValidateMerchantIdAndCurrencies, shoudlValidateMerchantIdAndCurrencies);
+            {
+                options.Validate(validateMerchantIdAndCurrencies);
+            }
         }
     }
 }
