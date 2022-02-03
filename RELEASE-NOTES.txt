@@ -1,3 +1,5 @@
+v3.2.0
+    - Optimize HTTP connection creation. Use singleton HttpClient per merchant
 v3.1.0
     - Use command="p" instead of command="z" when the amount is 0 to conform to MasterCard regulations
 v3.0.0
