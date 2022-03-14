@@ -70,7 +70,7 @@ namespace TbcBank.Ecommerce.Client.TestApp
             }
 
             {
-                // Reoccuring transaction with first charge
+                // Reccuring transaction with first charge
 
                 string billerClientId = Guid.NewGuid().ToString();
 
@@ -100,7 +100,7 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
             {
 
-                // Reoccuring transaction without charge
+                // Reccuring transaction without charge
                 string billerClientId = Guid.NewGuid().ToString();
 
                 RegisterTransactionResult registerTransactionResult
