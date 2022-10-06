@@ -138,7 +138,7 @@ namespace TbcBank.EcommerceClient
         /// <param name="language"></param>
         /// <param name="merchantTransactionId"></param>
         /// <returns></returns>
-        public async Task<ExecuteReoccurringTransactionResult> ExecuteReoccurringTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<ExecuteReoccurringTransactionResult> ExecuteReoccurringTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, TransactionInitiator initiator, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
         {
             var options = GetActiveOptions(currency);
 
@@ -149,11 +149,15 @@ namespace TbcBank.EcommerceClient
                 { "currency", ((int)currency).ToString() },
                 { "client_ip_addr", clientIpAddress },
                 { "description", description },
-                { "desc", description },
                 { "language", language },
                 { "biller_client_id", billerClientId },
                 { "mrch_transaction_id", merchantTransactionId }
             };
+
+            if (initiator == TransactionInitiator.Merchant)
+            {
+                requestParameters.Add("initiator", "merchant");
+            }
 
             return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters, options));
         }
@@ -208,7 +212,6 @@ namespace TbcBank.EcommerceClient
                 { "currency", ((int)currency).ToString() },
                 { "client_ip_addr", clientIpAddress },
                 { "description", description },
-                { "desc", description },
             };
 
             return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters, options));
@@ -314,6 +317,77 @@ namespace TbcBank.EcommerceClient
 
             return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters, options));
         }
+
+        /// <summary>
+        /// Command - D
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="clientIpAddress"></param>
+        /// <param name="description"></param>
+        /// <param name="recurringPaymentUniqueId"></param>
+        /// <param name="expiryDate"></param>
+        /// <param name="language"></param>
+        /// <param name="merchantTransactionId"></param>
+        /// <returns></returns>
+        public async Task<RegisterTransactionResult> RegisterPreAuthorizationAndGetReoccuringPaymentId(int amount, CurrencyCode currency, string clientIpAddress, string description, string recurringPaymentUniqueId, DateTimeOffset? expiryDate = null, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        {
+            var options = GetActiveOptions(currency);
+
+            expiryDate = expiryDate ?? GetDefaultExpiryDate();
+
+            var requestParameters = new Dictionary<string, string>()
+            {
+                { "command", "d" },
+                { "amount", amount.ToString() },
+                { "currency", ((int)currency).ToString() },
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
+                { "msg_type", "DMS" },
+                { "biller_client_id", recurringPaymentUniqueId },
+                { "perspayee_expiry", expiryDate.Value.ToString("MMyy") },
+                { "template_type", "DMS" }
+            };
+
+            return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters, options));
+        }
+
+        /// <summary>
+        /// Command  - F
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
+        /// <param name="clientIpAddress"></param>
+        /// <param name="description"></param>
+        /// <param name="billerClientId"></param>
+        /// <param name="language"></param>
+        /// <param name="merchantTransactionId"></param>
+        /// <returns></returns>
+        public async Task<ExecuteReoccurringTransactionResult> ExecuteReoccurringPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string billerClientId, TransactionInitiator initiator, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        {
+            var options = GetActiveOptions(currency);
+
+            var requestParameters = new Dictionary<string, string>()
+            {
+                { "command", "f" },
+                { "amount", amount.ToString() },
+                { "currency", ((int)currency).ToString() },
+                { "client_ip_addr", clientIpAddress },
+                { "description", description },
+                { "language", language },
+                { "biller_client_id", billerClientId },
+                { "mrch_transaction_id", merchantTransactionId },
+                { "template_type", "DMS" }
+            };
+
+            if (initiator == TransactionInitiator.Merchant)
+            {
+                requestParameters.Add("initiator", "merchant");
+            }
+
+            return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters, options));
+        }
+
 
         /// <summary>
         /// Gets redirect URL where the client should be navigated to enter card details
