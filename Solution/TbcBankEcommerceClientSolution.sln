@@ -19,6 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{87E0BC95-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.WebApp", "Docs\Example.WebApp\Example.WebApp.csproj", "{204987D7-7ED0-4C7E-9876-1A073B2473CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{2C81DBA6-53DF-4F04-9CE1-9F3090BF44E5}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\pull_request.yml = ..\.github\workflows\pull_request.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
