@@ -96,15 +96,19 @@ var client = new TbcBankEcommerceClient(clientOptions);
 * **CloseBusinessDayAsync**    
   Closes the business day for a merchant    
 
-* **RegisterPreAuthorizationAndGetReoccuringPaymentId**
-  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.
-  Register payment transaction with specified amount and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retrieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.
+* **RegisterPreAuthorizationAndGetReoccuringPaymentId**    
+  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.    
+      
+  Register payment transaction with specified amount and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retrieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.    
+      
   Once the operation completes you need to confirm the transaction using ```ExecutePreAuthorizationAsync()``` or reverse the transaction using ```ReverseTransactionAsync()```
 
-* **ExecuteReoccurringPreAuthorizationAsync**
-  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.
-  If you have already successfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` or ```RegisterPreAuthorizationAndGetReoccuringPaymentId``` methods, you can execute additional transactions without the user intervention using this method.
-  Once the operation completes you need to confirm the transaction using ```ExecutePreAuthorizationAsync()``` or reverse the transaction using ```ReverseTransactionAsync()```
+* **ExecuteReoccurringPreAuthorizationAsync**    
+  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.    
+      
+  If you have already successfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` or ```RegisterPreAuthorizationAndGetReoccuringPaymentId``` methods, you can execute additional transactions without the user intervention using this method.    
+      
+  Once the operation completes you need to confirm the transaction using ```ExecutePreAuthorizationAsync()``` or reverse the transaction using ```ReverseTransactionAsync()```    
   
 * **ExecuteCreditTransactionAsync**    
   This feature should be enabled by TBC.    
