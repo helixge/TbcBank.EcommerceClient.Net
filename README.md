@@ -1,6 +1,6 @@
 # TBC Bank E-Commerce Card Payments Gateway Client (.NET Library)
 
-[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?3-2-0)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
+[![Version](https://helix.ge/helix-tbcbank-ecommerceclient-nuget.svg?4-0-0-1)](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient)
 
 [Helix.TbcBank.EcommerceClient](https://www.nuget.org/packages/Helix.TbcBank.EcommerceClient) is a .NET client library for using TBC Bank e-commerce visa and master card payments gateway .
 
@@ -76,7 +76,7 @@ var client = new TbcBankEcommerceClient(clientOptions);
   Once the transaction is registered and the corresponding ID is retrieved from TBC, call this method to retrieve URL where the user should be redirected to in order to enter card details and complete the transaction    
   
 * **ExecuteReoccurringTransactionAsync**    
-  If you have already successfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` method, you can execute additional transactions without the user intervention using this method.    
+  If you have already successfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` or ```RegisterPreAuthorizationAndGetReoccuringPaymentId``` methods, you can execute additional transactions without the user intervention using this method.    
   
 * **RegisterPreAuthorizationAsync**    
   Use this method if you want to temporarily block the amount on the card while processing offline or asynchronous operation. ```ExecutePreAuthorizationAsync()``` method must be called to complete the transaction.
@@ -95,6 +95,16 @@ var client = new TbcBankEcommerceClient(clientOptions);
   
 * **CloseBusinessDayAsync**    
   Closes the business day for a merchant    
+
+* **RegisterPreAuthorizationAndGetReoccuringPaymentId**
+  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.
+  Register payment transaction with specified amount and save information for future transactions. This feature should be enabled by TBC. Once transaction id is retrieved, call ```GetClientRedirectUrl()``` method and navigate the user to the corresponding URL.
+  Once the operation completes you need to confirm the transaction using ```ExecutePreAuthorizationAsync()``` or reverse the transaction using ```ReverseTransactionAsync()```
+
+* **ExecuteReoccurringPreAuthorizationAsync**
+  Pre-authorization is the temporary amount blocking operation, which must be followed by a pre-authorization confirmation or reversal operation. In case none of them follow, the system by default will automatically delete the blocked amount after 30 working days. The block period is regulated by the card issuer (Issuer Bank). Pre-authorization can only be completed within 30 working days, follow the next commands to clarify.
+  If you have already successfully completed the transaction using ```RegisterTransactionAndGetReoccuringPaymentIdAsync``` or ```RegisterPreAuthorizationAndGetReoccuringPaymentId``` methods, you can execute additional transactions without the user intervention using this method.
+  Once the operation completes you need to confirm the transaction using ```ExecutePreAuthorizationAsync()``` or reverse the transaction using ```ReverseTransactionAsync()```
   
 * **ExecuteCreditTransactionAsync**    
   This feature should be enabled by TBC.    
