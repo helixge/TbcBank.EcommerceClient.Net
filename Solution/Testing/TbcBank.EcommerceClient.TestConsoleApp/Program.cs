@@ -85,17 +85,25 @@ namespace TbcBank.Ecommerce.Client.TestApp
                 CheckTransactionResult checkTransactionAndGetReoccuringPaymentIdResult
                     = await client.CheckTransactionResultAsync(registerTransactionAndGetReoccuringPaymentIdResult.TransactionId, ClientIpAddress);
 
-                ExecuteReoccurringTransactionResult executeReoccurringTransactionResult
-                    = await client.ExecuteReoccurringTransactionAsync(4, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - ExecuteReoccurringTransactionAsync", billerClientId);
+                ExecuteReoccurringTransactionResult executeReoccurringTransactionResultForClient
+                    = await client.ExecuteReoccurringTransactionAsync(4, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - ExecuteReoccurringTransactionAsync", billerClientId, TransactionInitiator.Client);
+                ExecuteReoccurringTransactionResult executeReoccurringTransactionResultForMerchant
+                    = await client.ExecuteReoccurringTransactionAsync(4, CurrencyCode.GEL, ClientIpAddress, "Test Transaction - ExecuteReoccurringTransactionAsync", billerClientId, TransactionInitiator.Merchant);
 
-                CheckTransactionResult checkExecuteReoccurringTransactionResult
-                    = await client.CheckTransactionResultAsync(executeReoccurringTransactionResult.TransactionId, ClientIpAddress);
+                CheckTransactionResult checkExecuteReoccurringTransactionResultForClient
+                    = await client.CheckTransactionResultAsync(executeReoccurringTransactionResultForClient.TransactionId, ClientIpAddress);
+                CheckTransactionResult checkExecuteReoccurringTransactionResultForMerchant
+                    = await client.CheckTransactionResultAsync(executeReoccurringTransactionResultForMerchant.TransactionId, ClientIpAddress);
 
-                ReverseTransactionResult reverseResult
-                    = await client.ReverseTransactionAsync(executeReoccurringTransactionResult.TransactionId, 1);
+                ReverseTransactionResult reverseResultForClient
+                    = await client.ReverseTransactionAsync(executeReoccurringTransactionResultForClient.TransactionId, 1);
+                ReverseTransactionResult reverseResultForMerchant
+                    = await client.ReverseTransactionAsync(executeReoccurringTransactionResultForMerchant.TransactionId, 1);
 
-                RefundTransactionResult refundResult
-                    = await client.RefundTransactionAsync(executeReoccurringTransactionResult.TransactionId, 1);
+                RefundTransactionResult refundResultForClient
+                    = await client.RefundTransactionAsync(executeReoccurringTransactionResultForClient.TransactionId, 1);
+                RefundTransactionResult refundResultForMerchant
+                    = await client.RefundTransactionAsync(executeReoccurringTransactionResultForClient.TransactionId, 1);
             }
 
             {

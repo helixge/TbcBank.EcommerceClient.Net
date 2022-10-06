@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TbcBank.EcommerceClient
+﻿namespace TbcBank.EcommerceClient
 {
     public enum CurrencyCode
     {
