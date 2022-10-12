@@ -1,3 +1,5 @@
+v4.1.0
+    - Downgrade to .NET Standard 2.0 to support .NET Framework
 v4.0.0
     - Adding required initiator parameter introduced by the TBC regulation: When the merchant has to cut a certain amount from the client on any given date without the client's approval, it is necessary for the merchant to add an additional parameter (initiator = merchant)
     - Adding 'RegisterPreAuthorizationAndGetReoccuringPaymentId' method (command "d").
