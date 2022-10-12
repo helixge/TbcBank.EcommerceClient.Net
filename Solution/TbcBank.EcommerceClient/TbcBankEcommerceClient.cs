@@ -522,15 +522,17 @@ namespace TbcBank.EcommerceClient
 
             try
             {
-                using var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded");
-                HttpClient client = _merchantHttpClientFactory.GetHttpClient(options);
-                HttpResponseMessage responseMessage = await client.PostAsync(result.RequestUrl, content);
+                using (var content = new StringContent(result.RequestQuery, Encoding.UTF8, "application/x-www-form-urlencoded"))
+                {
+                    HttpClient client = _merchantHttpClientFactory.GetHttpClient(options);
+                    HttpResponseMessage responseMessage = await client.PostAsync(result.RequestUrl, content);
 
-                result.HttpStatsCode = responseMessage.StatusCode;
-                result.Success = responseMessage.IsSuccessStatusCode;
-                result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
+                    result.HttpStatsCode = responseMessage.StatusCode;
+                    result.Success = responseMessage.IsSuccessStatusCode;
+                    result.RawResponse = await responseMessage.Content.ReadAsStringAsync();
 
-                responseMessage.EnsureSuccessStatusCode();
+                    responseMessage.EnsureSuccessStatusCode();
+                }
             }
             catch (Exception ex)
             {

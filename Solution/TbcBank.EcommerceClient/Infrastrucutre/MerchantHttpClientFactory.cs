@@ -54,7 +54,7 @@ namespace TbcBank.EcommerceClient
             var httpClientHandler = new HttpClientHandler
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
             };
 
             if (options.Environment != TbcEnvironment.LegacyProduction)
