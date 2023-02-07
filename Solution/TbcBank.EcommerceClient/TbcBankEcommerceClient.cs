@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Authentication;
@@ -127,7 +127,8 @@ namespace TbcBank.EcommerceClient
                 { "desc", description},
                 { "language", language},
                 { "biller_client_id", billerClientId},
-                { "mrch_transaction_id", merchantTransactionId }
+                { "mrch_transaction_id", merchantTransactionId },
+                { "initiator", "merchant" }
             };
 
             return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters));
