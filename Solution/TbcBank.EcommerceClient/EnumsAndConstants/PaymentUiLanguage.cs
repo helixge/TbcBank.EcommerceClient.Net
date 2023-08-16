@@ -6,7 +6,7 @@ namespace TbcBank.EcommerceClient
 {
     public static class PaymentUiLanguage
     {
-        public const string Georgian = "ge";
+        public const string Georgian = "ka";
         public const string English = "en";
     }
 }
