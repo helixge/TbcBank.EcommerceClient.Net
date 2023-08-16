@@ -23,8 +23,10 @@ namespace TbcBank.EcommerceClient
         /// </summary>
         /// <param name="amount">Amount in fractional units (i.e. Cents, Tetris)</param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResult> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterTransactionAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null, PaymentMethod[] paymentMethods = null)
         {
+            string prefix = PaymentMethodHelper.GetLanguagePaymentMethodPrefix(paymentMethods);
+            string prefixedLanguage = $"{prefix}{language}";
             var requestParameters = new Dictionary<string, string>()
             {
                 {"command", "v"},
@@ -33,12 +35,13 @@ namespace TbcBank.EcommerceClient
                 {"currency", ((int)currency).ToString() },
                 {"client_ip_addr", clientIpAddress},
                 {"description", description},
-                {"language", language},
+                {"language", prefixedLanguage},
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
             return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - Z
         /// </summary>
@@ -72,6 +75,7 @@ namespace TbcBank.EcommerceClient
 
             return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - P
         /// </summary>
@@ -104,6 +108,7 @@ namespace TbcBank.EcommerceClient
 
             return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command  - E
         /// </summary>
@@ -133,6 +138,7 @@ namespace TbcBank.EcommerceClient
 
             return new ExecuteReoccurringTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - A
         /// </summary>
@@ -142,8 +148,10 @@ namespace TbcBank.EcommerceClient
         /// <param name="description"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        public async Task<RegisterTransactionResult> RegisterPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null)
+        public async Task<RegisterTransactionResult> RegisterPreAuthorizationAsync(int amount, CurrencyCode currency, string clientIpAddress, string description, string language = PaymentUiLanguage.Georgian, string merchantTransactionId = null, PaymentMethod[] paymentOptions = null)
         {
+            string prefix = PaymentMethodHelper.GetLanguagePaymentMethodPrefix(paymentOptions);
+            string prefixedLanguage = $"{prefix}{language}";
             var requestParameters = new Dictionary<string, string>()
             {
                 { "command", "a"},
@@ -152,12 +160,13 @@ namespace TbcBank.EcommerceClient
                 { "currency", ((int)currency).ToString() },
                 { "client_ip_addr", clientIpAddress},
                 { "description", description},
-                { "language", language},
+                { "language", prefixedLanguage},
                 { "mrch_transaction_id", merchantTransactionId }
             };
 
             return new RegisterTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - T
         /// </summary>
@@ -183,6 +192,7 @@ namespace TbcBank.EcommerceClient
 
             return new ExecutePreAuthorizationResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - C
         /// </summary>
@@ -200,6 +210,7 @@ namespace TbcBank.EcommerceClient
 
             return new CheckTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - R
         /// </summary>
@@ -219,6 +230,7 @@ namespace TbcBank.EcommerceClient
 
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Command - K
         /// </summary>
@@ -236,6 +248,7 @@ namespace TbcBank.EcommerceClient
 
             return new RefundTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - G
         /// </summary>
@@ -258,6 +271,7 @@ namespace TbcBank.EcommerceClient
 
             return new ExecuteCreditTransactionResult(await MakePostRequestAsync(requestParameters));
         }
+
         /// <summary>
         /// Command - B
         /// </summary>
@@ -271,6 +285,7 @@ namespace TbcBank.EcommerceClient
 
             return new CloseBusinessDayResult(await MakePostRequestAsync(requestParameters));
         }
+
         public string GetClientRedirectUrl(string transactionId)
         {
             var url = ServiceUrlBuilderHelper.GetClientHandlerUrl(_options.Environment);
@@ -281,22 +296,29 @@ namespace TbcBank.EcommerceClient
         {
             return DateTimeOffset.UtcNow.Date.AddYears(10);
         }
+
         private async Task<HttpRequestResult> MakePostRequestAsync(IDictionary<string, string> requestParameters)
         {
             if (requestParameters is null)
+            {
                 throw new ArgumentNullException(nameof(requestParameters));
+            }
 
             StringBuilder queryBuilder = new StringBuilder();
             foreach (var requestParameter in requestParameters)
             {
                 if (requestParameter.Value == null)
+                {
                     continue;
+                }
 
                 queryBuilder.Append($"{requestParameter.Key}={Uri.EscapeDataString(requestParameter.Value)}&");
             }
 
             if (queryBuilder.Length > 1)
+            {
                 queryBuilder.Remove(queryBuilder.Length - 1, 1);
+            }
 
 
             HttpRequestResult result = new HttpRequestResult()

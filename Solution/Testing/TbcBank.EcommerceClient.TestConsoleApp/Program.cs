@@ -27,7 +27,7 @@ namespace TbcBank.Ecommerce.Client.TestApp
 
             var closeBusinessDayResult = await client.CloseBusinessDayAsync();
 
-            //var registerTransactionResult = await client.RegisterTransactionAsync(1, CurrencyCode.GEL, clientIpAddress, "Test Transaction - RegisterTransaction", PaymentUiLanguage.Georgian, "MerchantId-001");
+            //var registerTransactionResult = await client.RegisterTransactionAsync(1, CurrencyCode.GEL, clientIpAddress, "Test Transaction - RegisterTransaction", PaymentUiLanguage.Georgian, "MerchantId-001", new[] { PaymentMethod.Card });
             //var redirectUrl1 = client.GetClientRedirectUrl(registerTransactionResult.TransactionId);
             //var checkTransactionResult1 = await client.CheckTransactionResultAsync(registerTransactionResult.TransactionId, clientIpAddress);
             //var reverseResult1 = await client.ReverseTransactionAsync(registerTransactionResult.TransactionId, 1);

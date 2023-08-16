@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
@@ -25,7 +23,7 @@ namespace TbcBank.EcommerceClient
 
                 case TbcEnvironment.Test:
                     return TestMerchantHandlerEndpoint;
-                    
+
                 case TbcEnvironment.LegacyProduction:
                     return LegacyProductionMerchantHandlerEndpoint;
 
