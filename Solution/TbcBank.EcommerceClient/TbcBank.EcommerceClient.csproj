@@ -15,9 +15,9 @@
     <PackageIcon>helix.png</PackageIcon>
     <PackageIconUrl />
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <FileVersion>4.1.0.0</FileVersion>
-    <Version>4.1.0</Version>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <FileVersion>4.2.0.0</FileVersion>
+    <Version>4.2.0</Version>
     <Product>TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)</Product>
   </PropertyGroup>
 
