@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TbcBank.EcommerceClient
 {
@@ -14,6 +12,7 @@ namespace TbcBank.EcommerceClient
         public string ReocurringPaymentBillerClientId { get; set; }
         public DateTimeOffset? ReocurringPaymentExpiry { get; set; }
         public TransactionState State { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
 
         public CheckTransactionResult(HttpRequestResult httpResult)
             : base(httpResult)
@@ -29,6 +28,7 @@ namespace TbcBank.EcommerceClient
             ApprovalCode = GetResponseKeyValue("APPROVAL_CODE");
             CardNumber = GetResponseKeyValue("CARD_NUMBER");
             ReocurringPaymentBillerClientId = FixBillerClientId(GetResponseKeyValue("RECC_PMNT_ID"));
+            PaymentMethod = ParsePaymentMethod(GetResponseKeyValue("PAYMENT_METHOD"));
 
             ParseReccPmntExpiry();
             State = ParseState();
@@ -87,6 +87,25 @@ namespace TbcBank.EcommerceClient
         private string FixBillerClientId(string responseBillerClientId)
         {
             return ResponseProcessingHelper.FixBillerClientIdUfcResponse(responseBillerClientId);
+        }
+        private PaymentMethod ParsePaymentMethod(string paymentMethod)
+        {
+            if (paymentMethod is null)
+            {
+                return PaymentMethod.Card;
+            }
+
+            switch (paymentMethod)
+            {
+                case TransactionPaymentMethod.GooglePay:
+                    return PaymentMethod.GooglePay;
+
+                case TransactionPaymentMethod.ApplePay:
+                    return PaymentMethod.ApplePay;
+
+                default:
+                    return PaymentMethod.Unknown;
+            }
         }
     }
 }

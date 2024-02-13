@@ -48,5 +48,22 @@ namespace TbcBank.EcommerceClient.Tests.Models.Operation
             //Assert
             Assert.Equal(result.State, transactionState);
         }
+
+        [Theory]
+        [InlineData(PaymentMethod.Unknown, "RESULT: OK\nRESULT_CODE: 000\n3DSECURE: AUTHENTICATED\nRRN: 403713540797\nAPPROVAL_CODE: 496826\nCARD_NUMBER: 4***********1776\nPAYMENT_METHOD:")]
+        [InlineData(PaymentMethod.GooglePay, "RESULT: OK\nRESULT_CODE: 000\n3DSECURE: AUTHENTICATED\nRRN: 403713540797\nAPPROVAL_CODE: 496826\nCARD_NUMBER: 4***********1776\nPAYMENT_METHOD: google_pay")]
+        [InlineData(PaymentMethod.ApplePay, "RESULT: OK\nRESULT_CODE: 000\n3DSECURE: AUTHENTICATED\nRRN: 403713540797\nAPPROVAL_CODE: 496826\nCARD_NUMBER: 4***********1776\nPAYMENT_METHOD: apple_pay")]
+        [InlineData(PaymentMethod.Card, "RESULT: OK\nRESULT_CODE: 000\n3DSECURE: AUTHENTICATED\nRRN: 403713540797\nAPPROVAL_CODE: 496826\nCARD_NUMBER: 4***********1776")]
+        public void PaymentMethod_TestSpecificCases(PaymentMethod paymentMethod, string rawResponse)
+        {
+            //Arrange
+            var result = new CheckTransactionResult(new HttpRequestResult()
+            {
+                RawResponse = rawResponse
+            });
+
+            //Assert
+            Assert.Equal(result.PaymentMethod, paymentMethod);
+        }
     }
 }
