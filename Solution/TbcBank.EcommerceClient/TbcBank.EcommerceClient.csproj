@@ -1,49 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>TbcBank.EcommerceClient</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Helix</Authors>
-    <Company>Helix</Company>
-    <PackageProjectUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</RepositoryUrl>
-    <Copyright>Helix</Copyright>
-    <PackageId>Helix.TbcBank.EcommerceClient</PackageId>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageTags>tbc;tbcbank;ecommerce;payment;visa;mastercard;master card;e-commerce;</PackageTags>
-    <PackageIcon>helix.png</PackageIcon>
-    <PackageIconUrl />
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>4.3.0.0</AssemblyVersion>
-    <FileVersion>4.3.0.0</FileVersion>
-    <Version>4.3.0</Version>
-    <Product>TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)</Product>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>TbcBank.EcommerceClient</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Helix</Authors>
+		<Company>Helix</Company>
+		<PackageProjectUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/helixge/TbcBank.EcommerceClient.Net</RepositoryUrl>
+		<Copyright>Helix</Copyright>
+		<PackageId>Helix.TbcBank.EcommerceClient</PackageId>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageTags>tbc;tbcbank;ecommerce;payment;visa;mastercard;master card;e-commerce;</PackageTags>
+		<PackageIcon>helix.png</PackageIcon>
+		<PackageIconUrl />
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<AssemblyVersion>4.3.0.0</AssemblyVersion>
+		<FileVersion>4.3.0.0</FileVersion>
+		<Version>4.3.0</Version>
+		<Product>TBC Bank Ecommerce Card Payments Gateway Client (.NET Library)</Product>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\helix.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\helix.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+	</ItemGroup>
 
-  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
-    <ReadLinesFromFile File="../../RELEASE-NOTES.txt">
-      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
-    </ReadLinesFromFile>
-    <PropertyGroup>
-      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
-    </PropertyGroup>
-  </Target>
+	<Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+		<ReadLinesFromFile File="../../RELEASE-NOTES.txt">
+			<Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+		</ReadLinesFromFile>
+		<PropertyGroup>
+			<PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
+		</PropertyGroup>
+	</Target>
 </Project>
